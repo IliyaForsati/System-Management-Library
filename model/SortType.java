@@ -1,0 +1,4 @@
+public enum {
+    SORT_BY_YEAR_DOWNWARD,
+    SORT_BY_YEAR_UPWARD,
+}
