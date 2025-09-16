@@ -1,16 +1,19 @@
+import java.util.Scanner;
+
+import view.LibraryView;
+
 public class Main{
-	private static void doSomething(int[] a) {
-		a[0] = 2;
-		a[1] = 3;
-	}
-
 	public static void main(String[] args) {
-		int[] a = new int[5];
+		Scanner scanner = new Scanner(System.in);
 
-		a[0] = 1;
-		a[1] = 2;
-		doSomething(a);
+		while (true) {
+			String input_line = scanner.nextLine();
+			if (input_line.equals("exit")) {
+				break;
+			}
+			LibraryView.run(input_line.trim());
+		}
 
-		System.out.println(a[0]);	
+		scanner.close();
 	}
 }

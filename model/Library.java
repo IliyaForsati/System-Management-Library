@@ -1,3 +1,5 @@
+package model;
+
 import java.time.Year;
 
 public class Library {
@@ -37,7 +39,9 @@ public class Library {
         StringBuilder message = new StringBuilder();
 
         for (int i = 0; i < NoOfBooks; i++) {
-            message.append(books[i]);
+            message.append("Title: " + books[i].getTitle() + " Author: " + books[i].getAuthor() + 
+            " Year: " + books[i].getYear().toString() + " Status: " + books[i].getStatus().name());
+
             message.append("\n");
         }
 
