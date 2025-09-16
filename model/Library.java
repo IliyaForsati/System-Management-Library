@@ -74,18 +74,39 @@ public class Library {
 
     // update
     public Result updateBook(Book dist, Book src) {
-        return null;
+        deepCopyBook(dist, src);
+        return new Result("book: " + dist.getTitle() + " updated successfully.", true);
     }
     public Result updateBook(String distTitle, Book src) {
-        return null;
+        Book dist = findBookByTitle(distTitle);
+        if (dist == null) {
+            return new Result("book: " + distTitle + " not found.", false);
+        }
+        return updateBook(dist, src);
     }
 
     // delete
     public Result removeBook(Book book) {
-        return null;
+        for (int i = 0; i < NoOfBooks; i++) {
+            if (books[i] == book) {
+                if (i + 1 < NoOfBooks) 
+                    books[i] = books[i+1];
+                else
+                    books[i] = null;
+
+                NoOfBooks--;
+                return new Result("book: " + book.getTitle() + " removed successfully.", true);
+            }
+        }
+        return new Result("book: " + book.getTitle() + " not found. But how!!!", false);
     }
     public Result removeBook(String title) {
-        return null;
+        Book book = findBookByTitle(title);
+
+        if (book == null) {
+            return new Result("book: " + title + " not found.", false);
+        }
+        return removeBook(book);
     }
 
     // private methods
@@ -108,5 +129,21 @@ public class Library {
                 }
             }
         }
+    }
+
+    private void deepCopyBook(Book dist, Book src) {
+        dist.setTitle(src.getTitle());
+        dist.setAuthor(src.getAuthor());
+        dist.setYear(src.getYear());
+        dist.setStatus(src.getStatus());
+    }
+
+    private Book findBookByTitle(String title) {
+        for (int i = 0; i < NoOfBooks; i++) {
+            if (books[i].getTitle().equals(title)) {
+                return books[i];
+            }
+        }
+        return null;
     }
 }
