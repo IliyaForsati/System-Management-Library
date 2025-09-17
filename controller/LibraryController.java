@@ -6,6 +6,7 @@ import model.Book;
 import model.Library;
 import model.Result;
 import model.Status;
+import model.SortType;
 
 public class LibraryController {
     private static Library library = new Library();
@@ -22,10 +23,19 @@ public class LibraryController {
             return library.addBook(title, author, year, status);
         }
         else if (command.equals("print")) {
+            if (input_line_parts.length > 1) {
+                return library.printBooks(SortType.valueOf(input_line_parts[1]));
+            }
+
             return library.printBooks();
         }
         else if (command.equals("search")) {
             String keyWord = input_line_parts[1];
+
+            if (input_line_parts.length > 2) {
+                return library.searchBook(keyWord, SortType.valueOf(input_line_parts[2]));
+            }
+
             return library.searchBook(keyWord);
         }
         else if (command.equals("update")) {

@@ -8,7 +8,7 @@ public class Library {
     private Book[] books = new Book[MAX_NUMBER_OF_BOOKS];
 
     // create
-    public Result addBook(Book book) {
+    private Result addBook(Book book) {
         if (NoOfBooks >= 500) {
             return new Result("library if full.", false);
         }
@@ -39,7 +39,7 @@ public class Library {
         StringBuilder message = new StringBuilder();
 
         for (int i = 0; i < NoOfBooks; i++) {
-            message.append("Title: " + books[i].getTitle() + " Author: " + books[i].getAuthor() + 
+            message.append("\nTitle: " + books[i].getTitle() + " Author: " + books[i].getAuthor() +
             " Year: " + books[i].getYear().toString() + " Status: " + books[i].getStatus().name());
 
             message.append("\n");
@@ -117,14 +117,14 @@ public class Library {
     private void sortBooksArray(SortType type, Book[] books, int NoOfBooks) {
         for (int i = 0; i < NoOfBooks; i++) {
             for (int j = i + 1; j < NoOfBooks; j++) {
-                if (type == SortType.SORT_BY_YEAR_DOWNWARD) {
+                if (type == SortType.DOWNWARD) {
                     if (books[i].getYear().compareTo(books[j].getYear()) < 0) {
                         Book temp = books[i];
                         books[i] = books[j];
                         books[j] = temp;
                     }
                 }
-                else if (type == SortType.SORT_BY_YEAR_UPWARD) {
+                else if (type == SortType.UPWARD) {
                     if (books[i].getYear().compareTo(books[j].getYear()) > 0) {
                         Book temp = books[i];
                         books[i] = books[j];
