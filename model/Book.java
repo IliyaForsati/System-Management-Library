@@ -3,6 +3,7 @@ package model;
 import java.time.Year;
 
 public class Book {
+    private int uniqueId;
 	private String title;
     private String author;
     private Year year;
@@ -13,6 +14,7 @@ public class Book {
         this.title = title;
         this.year = year;
         this.status = status;
+        this.uniqueId = (title+author).hashCode();
     }
 
 
@@ -46,5 +48,15 @@ public class Book {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public int getUniqueId() {
+        return uniqueId;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "id: " + uniqueId + " title: " + title + " author: " + author + " year: "
+                + year.toString() + " status: " + status.name();
     }
 }

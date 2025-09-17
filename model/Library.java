@@ -27,16 +27,7 @@ public class Library {
                 sortBooksArray(type, books);
             }
 
-            StringBuilder message = new StringBuilder();
-
-            for (int i = 0; i < books.size(); i++) {
-                message.append("\nTitle: " + books.get(i).getTitle() + " Author: " + books.get(i).getAuthor()
-                        + " Year: " + books.get(i).getYear().toString() + " Status: " + books.get(i).getStatus().name());
-
-                message.append("\n");
-            }
-
-            return new Result(message.toString(), true);
+            return new Result(books.toString(), true);
         } catch (Exception e) {
             return new Result(e.getMessage(), false);
         }
@@ -56,15 +47,7 @@ public class Library {
             if (type != null)
                 sortBooksArray(type, filteredBooks);
 
-
-            StringBuilder message = new StringBuilder();
-            for (int i = 0; i < filteredBooks.size(); i++) {
-                message.append("\nTitle: " + filteredBooks.get(i).getTitle() + " Author: " + filteredBooks.get(i).getAuthor()
-                        + " Year: " + filteredBooks.get(i).getYear().toString() + " Status: " + filteredBooks.get(i).getStatus().name());
-                message.append("\n");
-            }
-
-            return new Result(message.toString(), true);
+            return new Result(filteredBooks.toString(), true);
         } catch (Exception e) {
             return new Result(e.getMessage(), false);
         }
@@ -78,11 +61,20 @@ public class Library {
         deepCopyBook(dist, src);
         return new Result("book: " + dist.getTitle() + " updated successfully.", true);
     }
-    public Result updateBook(String distTitle, Book src) {
+    public Result updateBook(String distTitleOrId, Book src) {
         try {
-            Book dist = findBookByTitle(distTitle);
+            List<Book> foundBooks = findBookByTitle(distTitleOrId);
+
+            if (foundBooks.size() > 1) {
+                Result result = searchBook(distTitleOrId);
+                result.setMessage(result.getMessage() + "\n please use id for this work.");
+
+                return result;
+            }
+
+            Book dist = foundBooks.get(0);
             if (dist == null) {
-                return new Result("book: " + distTitle + " not found.", false);
+                return new Result("book: " + distTitleOrId + " not found.", false);
             }
             return updateBook(dist, src);
         } catch (Exception e) {
@@ -98,12 +90,21 @@ public class Library {
 
         return new Result("book: " + book.getTitle() + " not found. But how!!!", false);
     }
-    public Result removeBook(String title) {
+    public Result removeBook(String titleOrId) {
         try {
-            Book book = findBookByTitle(title);
+            List<Book> foundBooks = findBookByTitle(titleOrId);
+
+            if (foundBooks.size() > 1) {
+                Result result = searchBook(titleOrId);
+                result.setMessage(result.getMessage() + "\n please use id for this work.");
+
+                return result;
+            }
+
+            Book book = foundBooks.get(0);
 
             if (book == null) {
-                return new Result("book: " + title + " not found.", false);
+                return new Result("book: " + titleOrId + " not found.", false);
             }
             return removeBook(book);
         } catch (Exception e) {
@@ -140,12 +141,16 @@ public class Library {
         dist.setStatus(src.getStatus());
     }
 
-    private Book findBookByTitle(String title) {
+    private List<Book> findBookByTitle(String titleOrId) {
+        List<Book> foundBooks = new List<>();
         for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getTitle().equals(title)) {
-                return books.get(i);
+            if (books.get(i).getTitle().equals(titleOrId) ||
+                String.valueOf(books.get(i).getUniqueId()).equals(titleOrId)) {
+                foundBooks.append(books.get(i));
             }
         }
-        return null;
+        if (foundBooks.size() == 0)
+            return null;
+        return foundBooks;
     }
 }

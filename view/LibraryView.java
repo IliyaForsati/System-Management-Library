@@ -8,9 +8,9 @@ public class LibraryView {
         Result result = LibraryController.run(input_line);
 
         if (result.isSuccessful()) {
-            System.out.println("Success: " + result.getMessage());
+            System.out.println("Success: \n" + result.getMessage());
         } else {
-            System.out.println("Error: " + result.getMessage());
+            System.out.println("Error: \n" + result.getMessage());
         }
     }
 }

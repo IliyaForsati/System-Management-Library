@@ -83,6 +83,18 @@ public class List<T> {
         return false;
     }
 
+    @java.lang.Override
+    public java.lang.String toString() {
+        Entity entity = first;
+        String out = "";
+        for (int i = 0; i < length; i++) {
+            out = out + (i + 1) + ". " + entity.data.toString() + "\n";
+            entity = entity.next;
+        }
+
+        return out;
+    }
+
     private class Entity {
         public T data;
         public Entity next;
