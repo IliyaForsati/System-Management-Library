@@ -7,11 +7,11 @@ public class Main{
 		Scanner scanner = new Scanner(System.in);
 
 		while (true) {
-			String input_line = scanner.nextLine();
-			if (input_line.equals("exit")) {
+			String inputLine = scanner.nextLine();
+			if (inputLine.equals("exit")) {
 				break;
 			}
-			LibraryView.run(input_line.trim());
+			LibraryView.run(inputLine.trim());
 		}
 
 		scanner.close();
