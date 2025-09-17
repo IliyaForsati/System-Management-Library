@@ -1,4 +1,4 @@
-//package utils;
+package utils;
 
 public class List<T> {
     private int length = 0;
@@ -11,7 +11,7 @@ public class List<T> {
             append(firstData[i]);
     }
 
-    public int getLength() {
+    public int size() {
         return length;
     }
 
@@ -36,6 +36,14 @@ public class List<T> {
             entity = entity.next;
 
         return entity.data;
+    }
+    public void set(int index, T data) {
+        Entity entity = first;
+
+        for (int i = 0; i < index; i++)
+            entity = entity.next;
+
+        entity.data = data;
     }
     public boolean remove(T data) {
         Entity entity = first;

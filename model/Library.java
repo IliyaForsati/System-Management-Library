@@ -2,19 +2,14 @@ package model;
 
 import java.time.Year;
 import java.lang.Exception;
+import utils.List;
 
 public class Library {
-    final static int MAX_NUMBER_OF_BOOKS = 500;
-    private int NoOfBooks = 0;
-    private Book[] books = new Book[MAX_NUMBER_OF_BOOKS];
+    private List<Book> books = new List<>();
 
     // create
     private Result addBook(Book book) {
-        if (NoOfBooks >= 500) {
-            return new Result("library if full.", false);
-        }
-
-        books[NoOfBooks++] = book;
+        books.append(book);
         return new Result("book: " + book.getTitle() + " added successfully.", true);
     }
     public Result addBook(String title, String author, Year year, Status status) {
@@ -29,14 +24,14 @@ public class Library {
     public Result printBooks(SortType type) {
         try {
             if (type != null) {
-                sortBooksArray(type, books, NoOfBooks);
+                sortBooksArray(type, books);
             }
 
             StringBuilder message = new StringBuilder();
 
-            for (int i = 0; i < NoOfBooks; i++) {
-                message.append("\nTitle: " + books[i].getTitle() + " Author: " + books[i].getAuthor()
-                        + " Year: " + books[i].getYear().toString() + " Status: " + books[i].getStatus().name());
+            for (int i = 0; i < books.size(); i++) {
+                message.append("\nTitle: " + books.get(i).getTitle() + " Author: " + books.get(i).getAuthor()
+                        + " Year: " + books.get(i).getYear().toString() + " Status: " + books.get(i).getStatus().name());
 
                 message.append("\n");
             }
@@ -51,24 +46,21 @@ public class Library {
     }
     public Result searchBook(String keyWord, SortType type) {
         try {
-            int NoOfFoundBooks = 0;
-            Book[] filteredBooks = new Book[MAX_NUMBER_OF_BOOKS];
+            List<Book> filteredBooks = new List<>();
 
-            for (int i = 0; i < NoOfBooks; i++) {
-                if (books[i].getTitle().toLowerCase().contains(keyWord.toLowerCase()) ||
-                    books[i].getAuthor().toLowerCase().contains(keyWord.toLowerCase())) {
-                    filteredBooks[NoOfFoundBooks++] = books[i];
-                }
-            }
+            for (int i = 0; i < books.size(); i++)
+                if (books.get(i).getTitle().toLowerCase().contains(keyWord.toLowerCase()) ||
+                    books.get(i).getAuthor().toLowerCase().contains(keyWord.toLowerCase()))
+                    filteredBooks.append(books.get(i));
 
-            if (type != null) {
-                sortBooksArray(type, filteredBooks, NoOfFoundBooks);
-            }
+            if (type != null)
+                sortBooksArray(type, filteredBooks);
+
 
             StringBuilder message = new StringBuilder();
-            for (int i = 0; i < NoOfFoundBooks; i++) {
-                message.append("\nTitle: " + filteredBooks[i].getTitle() + " Author: " + filteredBooks[i].getAuthor()
-                        + " Year: " + filteredBooks[i].getYear().toString() + " Status: " + filteredBooks[i].getStatus().name());
+            for (int i = 0; i < filteredBooks.size(); i++) {
+                message.append("\nTitle: " + filteredBooks.get(i).getTitle() + " Author: " + filteredBooks.get(i).getAuthor()
+                        + " Year: " + filteredBooks.get(i).getYear().toString() + " Status: " + filteredBooks.get(i).getStatus().name());
                 message.append("\n");
             }
 
@@ -100,17 +92,10 @@ public class Library {
 
     // delete
     private Result removeBook(Book book) {
-        for (int i = 0; i < NoOfBooks; i++) {
-            if (books[i] == book) {
-                if (i + 1 < NoOfBooks) 
-                    books[i] = books[i+1];
-                else
-                    books[i] = null;
-
-                NoOfBooks--;
-                return new Result("book: " + book.getTitle() + " removed successfully.", true);
-            }
+        if (books.remove(book)) {
+            return new Result("book: " + book.getTitle() + " removed successfully", true);
         }
+
         return new Result("book: " + book.getTitle() + " not found. But how!!!", false);
     }
     public Result removeBook(String title) {
@@ -127,21 +112,21 @@ public class Library {
     }
 
     // private methods
-    private void sortBooksArray(SortType type, Book[] books, int NoOfBooks) {
-        for (int i = 0; i < NoOfBooks; i++) {
-            for (int j = i + 1; j < NoOfBooks; j++) {
+    private void sortBooksArray(SortType type, List<Book> books) {
+        for (int i = 0; i < books.size(); i++) {
+            for (int j = i + 1; j < books.size(); j++) {
                 if (type == SortType.DOWNWARD) {
-                    if (books[i].getYear().compareTo(books[j].getYear()) < 0) {
-                        Book temp = books[i];
-                        books[i] = books[j];
-                        books[j] = temp;
+                    if (books.get(i).getYear().compareTo(books.get(j).getYear()) < 0) {
+                        Book temp = books.get(i);
+                        books.set(i, books.get(j));
+                        books.set(j, temp);
                     }
                 }
                 else if (type == SortType.UPWARD) {
-                    if (books[i].getYear().compareTo(books[j].getYear()) > 0) {
-                        Book temp = books[i];
-                        books[i] = books[j];
-                        books[j] = temp;
+                    if (books.get(i).getYear().compareTo(books.get(j).getYear()) > 0) {
+                        Book temp = books.get(i);
+                        books.set(i, books.get(j));
+                        books.set(j, temp);
                     }
                 }
             }
@@ -156,9 +141,9 @@ public class Library {
     }
 
     private Book findBookByTitle(String title) {
-        for (int i = 0; i < NoOfBooks; i++) {
-            if (books[i].getTitle().equals(title)) {
-                return books[i];
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle().equals(title)) {
+                return books.get(i);
             }
         }
         return null;
