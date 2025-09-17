@@ -7,6 +7,11 @@ import utils.List;
 public class Library {
     private List<Book> books = new List<>();
 
+    // constructors
+    public Library() {
+
+    }
+
     // create
     private Result addBook(Book book) {
         books.append(book);
