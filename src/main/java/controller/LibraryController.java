@@ -52,6 +52,9 @@ public class LibraryController {
                 String title = inputLineParts[1];
                 return library.removeBook(title);
             }
+            else if (command.equals("save")) {
+                return library.saveChanges();
+            }
             else {
                 return new Result("invalid command", false);
             }

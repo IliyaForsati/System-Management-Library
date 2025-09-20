@@ -3,13 +3,58 @@ package model;
 import java.time.Year;
 import java.lang.Exception;
 import utils.List;
+import java.io.*;
 
 public class Library {
     private List<Book> books = new List<>();
 
     // constructors
     public Library() {
+        addBooks();
+    }
+    private void addBooks() {
+        try {
+            String filePath = "./../resource/test.txt";
+            Reader r = new FileReader(filePath);
+            BufferedReader bf = new BufferedReader(r);
 
+            while (true) {
+                String line = bf.readLine();
+
+                if (line == null) break;
+
+                String[] parts = line.split(",");
+                Book book = new Book(parts[0], parts[1], Year.parse(parts[2]), Status.valueOf(parts[3]));
+                books.append(book);
+            }
+
+            bf.close();
+        } catch (java.lang.Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Result saveChanges() {
+        try {
+            String filePath = "./../resource/test.txt";
+            File f = new File(filePath);
+            File temp = File.createTempFile("test", ".txt", f.getParentFile());
+            FileWriter fw = new FileWriter(temp);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            for (int i = 0; i < books.size(); i++) {
+                bw.write(books.get(i).getTitle()+","+books.get(i).getAuthor()
+                        +","+books.get(i).getYear().toString()+","+books.get(i).getStatus().name());
+                bw.newLine();
+            }
+
+            bw.close();
+            f.delete();
+            temp.renameTo(f);
+        } catch (IOException e) {
+            return new Result("something went wrong! " + e.toString(), false);
+        }
+
+        return new Result("changes save successfully.", true);
     }
 
     // create
