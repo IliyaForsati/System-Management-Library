@@ -78,6 +78,9 @@ public class Library {
     }
 
     // read
+    public List<Book> getBooks() {
+        return books;
+    }
     public Result printBooks(SortType type) {
         try {
             if (type != null) {

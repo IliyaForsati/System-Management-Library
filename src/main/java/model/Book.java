@@ -3,7 +3,7 @@ package model;
 import java.time.Year;
 
 public class Book {
-    private int uniqueId;
+    private final int uniqueId;
 	private String title;
     private String author;
     private Year year;
@@ -54,9 +54,23 @@ public class Book {
         return uniqueId;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "id: " + uniqueId + " title: " + title + " author: " + author + " year: "
                 + year.toString() + " status: " + status.name();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean out = false;
+        if (obj instanceof Book) {
+            Book input = (Book) obj;
+            out = this.title.equals(input.title)
+                    && this.author.equals(input.author)
+                    && this.year.equals(input.year)
+                    && this.status.equals(input.status);
+        }
+
+        return out;
     }
 }
