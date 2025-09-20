@@ -1,11 +1,14 @@
 package model;
 
+import java.net.URI;
 import java.time.Year;
 import java.lang.Exception;
 import utils.List;
 import java.io.*;
+import java.util.Objects;
 
 public class Library {
+    private static URI filePath ;
     private List<Book> books = new List<>();
 
     // constructors
@@ -14,8 +17,8 @@ public class Library {
     }
     private void addBooks() {
         try {
-            String filePath = "./../resource/test.txt";
-            Reader r = new FileReader(filePath);
+            filePath = Objects.requireNonNull(getClass().getClassLoader().getResource("test.txt")).toURI();
+            Reader r = new FileReader(new File(filePath));
             BufferedReader bf = new BufferedReader(r);
 
             while (true) {
@@ -35,7 +38,6 @@ public class Library {
     }
     public Result saveChanges() {
         try {
-            String filePath = "./../resource/test.txt";
             File f = new File(filePath);
             File temp = File.createTempFile("test", ".txt", f.getParentFile());
             FileWriter fw = new FileWriter(temp);
