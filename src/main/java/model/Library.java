@@ -1,6 +1,7 @@
 package model;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Year;
 import java.lang.Exception;
 import utils.List;
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 public class Library {
     private static URI filePath ;
-    private List<Book> books = new List<>();
+    private final List<Book> books = new List<>();
 
     // constructors
     public Library() {
@@ -32,8 +33,10 @@ public class Library {
             }
 
             bf.close();
-        } catch (java.lang.Exception e) {
-            throw new RuntimeException(e);
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            // skip
+        } catch (IOException | URISyntaxException e) {
+            System.err.println(e);
         }
     }
     public Result saveChanges() {
@@ -50,10 +53,12 @@ public class Library {
             }
 
             bw.close();
-            f.delete();
-            temp.renameTo(f);
+            if (f.delete()) {
+                temp.renameTo(f);
+            }
+
         } catch (IOException e) {
-            return new Result("something went wrong! " + e.toString(), false);
+            return new Result("something went wrong! " + e, false);
         }
 
         return new Result("changes save successfully.", true);
@@ -117,6 +122,7 @@ public class Library {
         try {
             List<Book> foundBooks = findBookByTitle(distTitleOrId);
 
+            assert foundBooks != null;
             if (foundBooks.size() > 1) {
                 Result result = searchBook(distTitleOrId);
                 result.setMessage(result.getMessage() + "\n please use id for this work.");
@@ -146,6 +152,7 @@ public class Library {
         try {
             List<Book> foundBooks = findBookByTitle(titleOrId);
 
+            assert foundBooks != null;
             if (foundBooks.size() > 1) {
                 Result result = searchBook(titleOrId);
                 result.setMessage(result.getMessage() + "\n please use id for this work.");
