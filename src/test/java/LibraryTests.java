@@ -50,7 +50,7 @@ class LibraryTests {
     })
     void addBookWithSaveTest(String title, String author, int year, String status) {
         addBookTest(title, author, year, status);
-        Result saveResult = library.saveChanges();
+        ResultDTO saveResult = library.saveChanges();
 
         URL url = getClass().getClassLoader().getResource("test.txt");
 
@@ -144,7 +144,7 @@ class LibraryTests {
         addBookTest(books[0][0], books[0][1], Integer.parseInt(books[0][2]), books[0][3]);
         addBookTest(books[1][0], books[1][1], Integer.parseInt(books[1][2]), books[1][3]);
 
-        Result printResult;
+        ResultDTO printResult;
         if (haveSortFilter)
             printResult = library.printBooks(SortType.DOWNWARD);
         else
@@ -172,7 +172,7 @@ class LibraryTests {
         addBookTest(books[1][0], books[1][1], Integer.parseInt(books[1][2]), books[1][3]);
         addBookTest(books[2][0], books[2][1], Integer.parseInt(books[2][2]), books[2][3]);
 
-        Result searchResult;
+        ResultDTO searchResult;
         if (haveSortFilter)
             searchResult = library.searchBook(books[0][1], SortType.DOWNWARD);
         else

@@ -1,10 +1,12 @@
 package model;
 
-public class Result{
+public class ResultDTO {
     private String message;
     private boolean isSuccessful;
 
-    public Result(String message, boolean isSuccessful) {
+    // default constructor
+    public ResultDTO() {}
+    public ResultDTO(String message, boolean isSuccessful) {
         this.message = message;
         this.isSuccessful = isSuccessful;
     }

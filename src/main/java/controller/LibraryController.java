@@ -1,17 +1,16 @@
 package controller;
 
 import java.time.Year;
-
 import model.Book;
 import model.Library;
-import model.Result;
+import model.ResultDTO;
 import model.Status;
 import model.SortType;
 
 public class LibraryController {
     private static Library library = new Library();
 
-    public static Result run(String[] inputLine) {
+    public static ResultDTO run(String[] inputLine) {
         try {
             String command = inputLine[0];
             if (command.equals("add")) {
@@ -54,10 +53,10 @@ public class LibraryController {
                 return library.saveChanges();
             }
             else {
-                return new Result("invalid command", false);
+                return new ResultDTO("invalid command", false);
             }
         } catch (Exception e) {
-            return new Result("invalid command!", false);
+            return new ResultDTO("invalid command!", false);
         }
     }
 }

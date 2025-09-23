@@ -39,7 +39,7 @@ public class Library {
             System.err.println(e);
         }
     }
-    public Result saveChanges() {
+    public ResultDTO saveChanges() {
         try {
             File f = new File(filePath);
             File temp = File.createTempFile("test", ".txt", f.getParentFile());
@@ -58,22 +58,22 @@ public class Library {
             }
 
         } catch (IOException e) {
-            return new Result("something went wrong! " + e, false);
+            return new ResultDTO("something went wrong! " + e, false);
         }
 
-        return new Result("changes save successfully.", true);
+        return new ResultDTO("changes save successfully.", true);
     }
 
     // create
-    private Result addBook(Book book) {
+    private ResultDTO addBook(Book book) {
         books.append(book);
-        return new Result("book: " + book.getTitle() + " added successfully.", true);
+        return new ResultDTO("book: " + book.getTitle() + " added successfully.", true);
     }
-    public Result addBook(String title, String author, Year year, Status status) {
+    public ResultDTO addBook(String title, String author, Year year, Status status) {
         try {
             return addBook(new Book(title, author, year, status));
         } catch (Exception e) {
-            return new Result(e.getMessage(), false);
+            return new ResultDTO(e.getMessage(), false);
         }
     }
 
@@ -81,21 +81,21 @@ public class Library {
     public List<Book> getBooks() {
         return books;
     }
-    public Result printBooks(SortType type) {
+    public ResultDTO printBooks(SortType type) {
         try {
             if (type != null) {
                 sortBooksArray(type, books);
             }
 
-            return new Result(books.toString(), true);
+            return new ResultDTO(books.toString(), true);
         } catch (Exception e) {
-            return new Result(e.getMessage(), false);
+            return new ResultDTO(e.getMessage(), false);
         }
     }
-    public Result printBooks() {
+    public ResultDTO printBooks() {
         return printBooks(null);
     }
-    public Result searchBook(String keyWord, SortType type) {
+    public ResultDTO searchBook(String keyWord, SortType type) {
         try {
             List<Book> filteredBooks = new List<>();
 
@@ -107,27 +107,27 @@ public class Library {
             if (type != null)
                 sortBooksArray(type, filteredBooks);
 
-            return new Result(filteredBooks.toString(), true);
+            return new ResultDTO(filteredBooks.toString(), true);
         } catch (Exception e) {
-            return new Result(e.getMessage(), false);
+            return new ResultDTO(e.getMessage(), false);
         }
     }
-    public Result searchBook(String keyWord) {
+    public ResultDTO searchBook(String keyWord) {
         return searchBook(keyWord, null);
     }
 
     // update
-    private Result updateBook(Book dist, Book src) {
+    private ResultDTO updateBook(Book dist, Book src) {
         deepCopyBook(dist, src);
-        return new Result("book: " + dist.getTitle() + " updated successfully.", true);
+        return new ResultDTO("book: " + dist.getTitle() + " updated successfully.", true);
     }
-    public Result updateBook(String distTitleOrId, Book src) {
+    public ResultDTO updateBook(String distTitleOrId, Book src) {
         try {
             List<Book> foundBooks = findBookByTitle(distTitleOrId);
 
             assert foundBooks != null;
             if (foundBooks.size() > 1) {
-                Result result = searchBook(distTitleOrId);
+                ResultDTO result = searchBook(distTitleOrId);
                 result.setMessage(result.getMessage() + "\n please use id for this work.");
 
                 return result;
@@ -135,29 +135,29 @@ public class Library {
 
             Book dist = foundBooks.get(0);
             if (dist == null) {
-                return new Result("book: " + distTitleOrId + " not found.", false);
+                return new ResultDTO("book: " + distTitleOrId + " not found.", false);
             }
             return updateBook(dist, src);
         } catch (Exception e) {
-            return new Result(e.getMessage(), false);
+            return new ResultDTO(e.getMessage(), false);
         }
     }
 
     // delete
-    private Result removeBook(Book book) {
+    private ResultDTO removeBook(Book book) {
         if (books.remove(book)) {
-            return new Result("book: " + book.getTitle() + " removed successfully", true);
+            return new ResultDTO("book: " + book.getTitle() + " removed successfully", true);
         }
 
-        return new Result("book: " + book.getTitle() + " not found. But how!!!", false);
+        return new ResultDTO("book: " + book.getTitle() + " not found. But how!!!", false);
     }
-    public Result removeBook(String titleOrId) {
+    public ResultDTO removeBook(String titleOrId) {
         try {
             List<Book> foundBooks = findBookByTitle(titleOrId);
 
             assert foundBooks != null;
             if (foundBooks.size() > 1) {
-                Result result = searchBook(titleOrId);
+                ResultDTO result = searchBook(titleOrId);
                 result.setMessage(result.getMessage() + "\n please use id for this work.");
 
                 return result;
@@ -166,11 +166,11 @@ public class Library {
             Book book = foundBooks.get(0);
 
             if (book == null) {
-                return new Result("book: " + titleOrId + " not found.", false);
+                return new ResultDTO("book: " + titleOrId + " not found.", false);
             }
             return removeBook(book);
         } catch (Exception e) {
-            return new Result(e.getMessage(), false);
+            return new ResultDTO(e.getMessage(), false);
         }
     }
 
