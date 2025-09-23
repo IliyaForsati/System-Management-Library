@@ -10,7 +10,7 @@ public class Main{
 			if (inputLine.equals("exit")) {
 				break;
 			}
-			LibraryView.run(inputLine.trim());
+			LibraryView.run(inputLine.trim().split(" "));
 		}
 
 		scanner.close();

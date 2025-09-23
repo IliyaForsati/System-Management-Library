@@ -4,7 +4,7 @@ import controller.LibraryController;
 import model.Result;
 
 public class LibraryView {
-    public static void run(String input_line) {
+    public static void run(String[] input_line) {
         Result result = LibraryController.run(input_line);
 
         if (result.isSuccessful()) {

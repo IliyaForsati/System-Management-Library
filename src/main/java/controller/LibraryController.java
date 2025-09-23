@@ -11,45 +11,43 @@ import model.SortType;
 public class LibraryController {
     private static Library library = new Library();
 
-    public static Result run(String inputLine) {
+    public static Result run(String[] inputLine) {
         try {
-            String[] inputLineParts = inputLine.split(" ");
-
-            String command = inputLineParts[0];
+            String command = inputLine[0];
             if (command.equals("add")) {
-                String title = inputLineParts[1];
-                String author = inputLineParts[2];
-                Year year = Year.parse(inputLineParts[3]);
-                Status status = Status.valueOf(inputLineParts[4]);
+                String title = inputLine[1];
+                String author = inputLine[2];
+                Year year = Year.parse(inputLine[3]);
+                Status status = Status.valueOf(inputLine[4]);
                 return library.addBook(title, author, year, status);
             }
             else if (command.equals("print")) {
-                if (inputLineParts.length > 1) {
-                    return library.printBooks(SortType.valueOf(inputLineParts[1]));
+                if (inputLine.length > 1) {
+                    return library.printBooks(SortType.valueOf(inputLine[1]));
                 }
 
                 return library.printBooks();
             }
             else if (command.equals("search")) {
-                String keyWord = inputLineParts[1];
+                String keyWord = inputLine[1];
 
-                if (inputLineParts.length > 2) {
-                    return library.searchBook(keyWord, SortType.valueOf(inputLineParts[2]));
+                if (inputLine.length > 2) {
+                    return library.searchBook(keyWord, SortType.valueOf(inputLine[2]));
                 }
 
                 return library.searchBook(keyWord);
             }
             else if (command.equals("update")) {
-                String distTitle = inputLineParts[1];
-                String title = inputLineParts[2];
-                String author = inputLineParts[3];
-                Year year = Year.parse(inputLineParts[4]);
-                Status status = Status.valueOf(inputLineParts[5]);
+                String distTitle = inputLine[1];
+                String title = inputLine[2];
+                String author = inputLine[3];
+                Year year = Year.parse(inputLine[4]);
+                Status status = Status.valueOf(inputLine[5]);
                 Book newBook = new Book(title, author, year, status);
                 return library.updateBook(distTitle, newBook);
             }
             else if (command.equals("remove")) {
-                String title = inputLineParts[1];
+                String title = inputLine[1];
                 return library.removeBook(title);
             }
             else if (command.equals("save")) {
