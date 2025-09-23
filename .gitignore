@@ -24,5 +24,7 @@ hs_err_pid*
 replay_pid*
 
 .idea
-src/main/java/controller/LibraryController.java
 target
+src/main/java/controller/LibraryController.java
+src/main/java/model/Library.java
+src/main/java/model/Book1.java
