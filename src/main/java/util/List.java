@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 public class List<T> {
     private int length = 0;
