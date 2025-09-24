@@ -18,12 +18,12 @@ abstract class PublicationController<T extends Publication> implements IPublicat
         return null; // todo: ex handling
     }
 
-    public ResultDTO display(T entity) {
-        return new ResultDTO(entity.createDisplayResult(), true);
-    }
     public ResultDTO add(T entity) {
         entity.add();
         return new ResultDTO("added successfully", true);
+    }
+    public ResultDTO display(T entity) {
+        return new ResultDTO(entity.createDisplayResult(), true);
     }
     public ResultDTO print(SortType st) {
         throw new UnsupportedOperationException("Not implemented yet!");
@@ -33,10 +33,10 @@ abstract class PublicationController<T extends Publication> implements IPublicat
     }
     public ResultDTO update(T dist, T src) {
         dist.update(src);
-        return new ResultDTO("update successfully", true);
+        return new ResultDTO("updated successfully", true);
     }
     public ResultDTO remove(T entity) {
         entity.remove();
-        return new ResultDTO("added successfully", true);
+        return new ResultDTO("deleted successfully", true);
     }
 }
