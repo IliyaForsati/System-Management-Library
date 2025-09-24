@@ -1,13 +1,12 @@
 package controller;
 
 import controller.interfaces.IArticleController;
-import controller.interfaces.IController;
 import model.Article;
 import model.ResultDTO;
 
 class ArticleController
         extends PublicationController<Article>
-        implements IArticleController, IController
+        implements IArticleController
 {
     @Override
     public ResultDTO run(String[] args) {

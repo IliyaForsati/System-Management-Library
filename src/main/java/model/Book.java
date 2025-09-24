@@ -10,25 +10,17 @@ public class Book extends Publication {
     }
 
     @Override
-    public boolean add(Publication entity) {
+    public boolean add() {
         // todo: check first
-        if (entity instanceof Book)
-            allBooks.add((Book) entity);
-        else
-            throw new IllegalArgumentException("entity must be Article");
-
-        return allPublications.add(entity);
+        allBooks.add(this);
+        return allPublications.add(this);
     }
 
     @Override
-    public boolean remove(Publication entity) {
+    public boolean remove() {
         // todo: check first
-        if (entity instanceof Book)
-            allBooks.remove((Book) entity);
-        else
-            throw new IllegalArgumentException("entity must be Article");
-
-        return allPublications.remove(entity);
+        allBooks.remove(this);
+        return allPublications.remove(this);
     }
 
     public static class BookBuilder extends PublicationBuilder<BookBuilder> {

@@ -11,4 +11,5 @@ public interface IPublicationController<T extends Publication> {
     ResultDTO remove(T entity);
     ResultDTO print(SortType st);
     ResultDTO search(SortType st);
+    ResultDTO run(String[] args);
 }

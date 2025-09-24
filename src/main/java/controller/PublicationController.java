@@ -22,7 +22,8 @@ abstract class PublicationController<T extends Publication> implements IPublicat
         return new ResultDTO(entity.createDisplayResult(), true);
     }
     public ResultDTO add(T entity) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        entity.add();
+        return new ResultDTO("added successfully", true);
     }
     public ResultDTO print(SortType st) {
         throw new UnsupportedOperationException("Not implemented yet!");
@@ -31,10 +32,11 @@ abstract class PublicationController<T extends Publication> implements IPublicat
         throw new UnsupportedOperationException("Not implemented yet!");
     }
     public ResultDTO update(T dist, T src) {
-        dist.deepCopy(src);
+        dist.update(src);
         return new ResultDTO("update successfully", true);
     }
     public ResultDTO remove(T entity) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        entity.remove();
+        return new ResultDTO("added successfully", true);
     }
 }

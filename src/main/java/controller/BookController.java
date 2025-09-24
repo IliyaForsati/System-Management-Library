@@ -1,14 +1,12 @@
 package controller;
 
 import controller.interfaces.IBookController;
-import controller.interfaces.IController;
 import model.Book;
-import model.Publication;
 import model.ResultDTO;
 
 class BookController
         extends PublicationController<Book>
-        implements IBookController, IController
+        implements IBookController
 {
     @Override
     public ResultDTO run(String[] args) {

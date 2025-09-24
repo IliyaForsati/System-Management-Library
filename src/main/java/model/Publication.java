@@ -111,16 +111,15 @@ public abstract class Publication {
     // </editor-fold>
 
     // <editor-fold desc="logical methods">
-    public abstract boolean add(Publication entity);
-    public abstract boolean remove(Publication entity);
-    public void remove() {}
+    public abstract boolean add();
+    public abstract boolean remove();
     public String createDisplayResult() {
         return String.format(
                 " type: %s%n title: %s%n author: %s%n publication year: %s%n status: %s%n",
                 type, title, author, publicationYear, status
         );
     }
-    public void deepCopy(Publication entity) {
+    public void update(Publication entity) {
         this.type = entity.type;
         this.status = entity.status;
         this.title = entity.title;

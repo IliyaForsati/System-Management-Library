@@ -10,25 +10,17 @@ public class Dissertation extends Publication {
     }
 
     @Override
-    public boolean add(Publication entity) {
+    public boolean add() {
         // todo: check first
-        if (entity instanceof Dissertation)
-            allDissertations.add((Dissertation) entity);
-        else
-            throw new IllegalArgumentException("entity must be Article");
-
-        return allPublications.add(entity);
+        allDissertations.add(this);
+        return allPublications.add(this);
     }
 
     @Override
-    public boolean remove(Publication entity) {
+    public boolean remove() {
         // todo: check first
-        if (entity instanceof Dissertation)
-            allDissertations.remove((Dissertation) entity);
-        else
-            throw new IllegalArgumentException("entity must be Article");
-
-        return allPublications.remove(entity);
+        allDissertations.remove(this);
+        return allPublications.remove(this);
     }
 
     public static class DissertationBuilder extends PublicationBuilder<DissertationBuilder> {

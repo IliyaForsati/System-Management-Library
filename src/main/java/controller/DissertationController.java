@@ -1,13 +1,12 @@
 package controller;
 
-import controller.interfaces.IController;
 import controller.interfaces.IDissertationController;
 import model.Dissertation;
 import model.ResultDTO;
 
 class DissertationController
         extends PublicationController<Dissertation>
-        implements IDissertationController, IController
+        implements IDissertationController
 {
     @Override
     public ResultDTO run(String[] args) {
