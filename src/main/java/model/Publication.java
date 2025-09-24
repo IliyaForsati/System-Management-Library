@@ -15,6 +15,7 @@ public abstract class Publication {
     protected Status status;
     public static final ArrayList<Publication> allPublications = new ArrayList<>();
 
+    // <editor-fold desc="getters and setters">
     public int getId() {
         return id;
     }
@@ -58,4 +59,33 @@ public abstract class Publication {
     public void setStatus(Status status) {
         this.status = status;
     }
+    // </editor-fold>
+
+    // <editor-fold desc="logical methods">
+    public final ResultDTO display() {
+        String result = createDisplayResult();
+        return new ResultDTO(result, true);
+    }
+    public ResultDTO add() {
+
+    }
+    public ResultDTO update(Publication entity) {
+        this.deepCopy(entity);
+        return new ResultDTO("updated successfully", true);
+    }
+
+    protected String createDisplayResult() {
+        return String.format(
+                " type: %s%n title: %s%n author: %s%n publication year: %s%n status: %s%n",
+                type, title, author, publicationYear, status
+        );
+    }
+    protected void deepCopy(Publication entity) {
+        this.type = entity.type;
+        this.status = entity.status;
+        this.title = entity.title;
+        this.author = entity.author;
+        this.publicationYear = entity.publicationYear;
+    }
+    // </editor-fold>
 }
