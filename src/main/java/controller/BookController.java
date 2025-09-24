@@ -3,6 +3,7 @@ package controller;
 import controller.interfaces.IBookController;
 import controller.interfaces.IController;
 import model.Book;
+import model.Publication;
 import model.ResultDTO;
 
 class BookController

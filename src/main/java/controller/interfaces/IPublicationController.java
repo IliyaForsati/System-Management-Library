@@ -7,7 +7,7 @@ import model.enums.SortType;
 public interface IPublicationController<T extends Publication> {
     ResultDTO display(T entity);
     ResultDTO add(T entity);
-    ResultDTO update(T entity);
+    ResultDTO update(T dist, T src);
     ResultDTO remove(T entity);
     ResultDTO print(SortType st);
     ResultDTO search(SortType st);

@@ -3,6 +3,7 @@ package model;
 import model.enums.Status;
 import model.enums.Type;
 
+import java.lang.reflect.ParameterizedType;
 import java.time.Year;
 import java.util.ArrayList;
 
@@ -14,6 +15,56 @@ public abstract class Publication {
     protected Type type;
     protected Status status;
     public static final ArrayList<Publication> allPublications = new ArrayList<>();
+
+    // <editor-fold desc="constructors">
+    public <T extends PublicationBuilder<T>> Publication(PublicationBuilder<T> pb) {
+        this.title = pb.title;
+        this.author = pb.author;
+        this.publicationYear = pb.publicationYear;
+        this.type = pb.type;
+        this.status = pb.status;
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="builder">
+    public abstract static class PublicationBuilder<T extends PublicationBuilder<T>> {
+        protected String title;
+        protected String author;
+        protected Year publicationYear;
+        protected Type type;
+        protected Status status;
+
+        // <editor-fold desc="builder setters">
+        public T title(String title) {
+            this.title = title;
+            return self();
+        }
+
+        public T author(String author) {
+            this.author = author;
+            return self();
+        }
+
+        public T publicationYear(Year publicationYear) {
+            this.publicationYear = publicationYear;
+            return self();
+        }
+
+        public T type(Type type) {
+            this.type = type;
+            return self();
+        }
+
+        public T status(Status status) {
+            this.status = status;
+            return self();
+        }
+        // </editor-fold>
+
+        protected abstract T self();
+        public abstract Publication build();
+    }
+    // </editor-fold>
 
     // <editor-fold desc="getters and setters">
     public int getId() {
@@ -62,25 +113,16 @@ public abstract class Publication {
     // </editor-fold>
 
     // <editor-fold desc="logical methods">
-    public final ResultDTO display() {
-        String result = createDisplayResult();
-        return new ResultDTO(result, true);
-    }
-    public ResultDTO add() {
-
-    }
-    public ResultDTO update(Publication entity) {
-        this.deepCopy(entity);
-        return new ResultDTO("updated successfully", true);
-    }
-
-    protected String createDisplayResult() {
+    public void add(Publication entity) {}
+    public void remove(Publication entity) {}
+    public void remove() {}
+    public String createDisplayResult() {
         return String.format(
                 " type: %s%n title: %s%n author: %s%n publication year: %s%n status: %s%n",
                 type, title, author, publicationYear, status
         );
     }
-    protected void deepCopy(Publication entity) {
+    public void deepCopy(Publication entity) {
         this.type = entity.type;
         this.status = entity.status;
         this.title = entity.title;
