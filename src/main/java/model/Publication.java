@@ -2,8 +2,6 @@ package model;
 
 import model.enums.Status;
 import model.enums.Type;
-
-import java.lang.reflect.ParameterizedType;
 import java.time.Year;
 import java.util.ArrayList;
 
@@ -113,8 +111,8 @@ public abstract class Publication {
     // </editor-fold>
 
     // <editor-fold desc="logical methods">
-    public void add(Publication entity) {}
-    public void remove(Publication entity) {}
+    public abstract boolean add(Publication entity);
+    public abstract boolean remove(Publication entity);
     public void remove() {}
     public String createDisplayResult() {
         return String.format(

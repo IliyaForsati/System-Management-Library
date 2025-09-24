@@ -9,6 +9,28 @@ public class Dissertation extends Publication {
         super(pb);
     }
 
+    @Override
+    public boolean add(Publication entity) {
+        // todo: check first
+        if (entity instanceof Dissertation)
+            allDissertations.add((Dissertation) entity);
+        else
+            throw new IllegalArgumentException("entity must be Article");
+
+        return allPublications.add(entity);
+    }
+
+    @Override
+    public boolean remove(Publication entity) {
+        // todo: check first
+        if (entity instanceof Dissertation)
+            allDissertations.remove((Dissertation) entity);
+        else
+            throw new IllegalArgumentException("entity must be Article");
+
+        return allPublications.remove(entity);
+    }
+
     public static class DissertationBuilder extends PublicationBuilder<DissertationBuilder> {
 
         @Override
