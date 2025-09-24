@@ -5,7 +5,10 @@ import controller.interfaces.IController;
 import model.Book;
 import model.ResultDTO;
 
-class BookController extends PublicationController<Book> implements IBookController, IController {
+class BookController
+        extends PublicationController<Book>
+        implements IBookController, IController
+{
     @Override
     public ResultDTO run(String[] args) {
         return null;
@@ -17,6 +20,6 @@ class BookController extends PublicationController<Book> implements IBookControl
         if (instance != null) return instance;
 
         instance = new BookController();
-        return  instance;
+        return instance;
     }
 }

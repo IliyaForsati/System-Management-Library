@@ -5,7 +5,10 @@ import controller.interfaces.IController;
 import model.Article;
 import model.ResultDTO;
 
-class ArticleController extends PublicationController<Article> implements IArticleController, IController {
+class ArticleController
+        extends PublicationController<Article>
+        implements IArticleController, IController
+{
     @Override
     public ResultDTO run(String[] args) {
         return null;
