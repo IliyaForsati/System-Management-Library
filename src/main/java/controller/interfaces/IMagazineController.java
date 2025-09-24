@@ -1,4 +1,6 @@
 package controller.interfaces;
 
-public interface IMagazineController extends IPublicationController {
+import model.Magazine;
+
+public interface IMagazineController extends IPublicationController<Magazine> {
 }

@@ -1,4 +1,6 @@
 package controller.interfaces;
 
-public interface IDissertationController extends IPublicationController {
+import model.Dissertation;
+
+public interface IDissertationController extends IPublicationController<Dissertation> {
 }

@@ -1,4 +1,14 @@
 package controller.interfaces;
 
-public interface IPublicationController {
+import model.Publication;
+import model.ResultDTO;
+import model.enums.SortType;
+
+public interface IPublicationController<T extends Publication> {
+    ResultDTO display();
+    ResultDTO add(T entity);
+    ResultDTO update(T entity);
+    ResultDTO remove(T entity);
+    ResultDTO print(SortType st);
+    ResultDTO search(SortType st);
 }
