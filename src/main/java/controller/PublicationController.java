@@ -6,7 +6,7 @@ import model.ResultDTO;
 import model.enums.SortType;
 
 abstract class PublicationController<T extends Publication> implements IPublicationController<T> {
-    public ResultDTO display() {
+    public ResultDTO display(T entity) {
         throw new UnsupportedOperationException("Not implemented yet!");
     }
     public ResultDTO add(T entity) {

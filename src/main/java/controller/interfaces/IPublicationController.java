@@ -5,7 +5,7 @@ import model.ResultDTO;
 import model.enums.SortType;
 
 public interface IPublicationController<T extends Publication> {
-    ResultDTO display();
+    ResultDTO display(T entity);
     ResultDTO add(T entity);
     ResultDTO update(T entity);
     ResultDTO remove(T entity);

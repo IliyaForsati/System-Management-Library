@@ -3,7 +3,7 @@ package view;
 import controller.MainController;
 import model.ResultDTO;
 
-public class LibraryView {
+public class MainView {
     public static void run(String[] inputLine) {
         ResultDTO result = MainController.run(inputLine);
 

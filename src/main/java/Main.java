@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import view.LibraryView;
+import view.MainView;
 
 public class Main{
 	public static void main(String[] args) {
@@ -10,7 +10,7 @@ public class Main{
 			if (inputLine.equals("exit")) {
 				break;
 			}
-			LibraryView.run(inputLine.trim().split(" "));
+			MainView.run(inputLine.trim().split(" "));
 		}
 
 		scanner.close();
