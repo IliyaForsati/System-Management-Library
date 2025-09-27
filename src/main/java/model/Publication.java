@@ -1,9 +1,11 @@
 package model;
 
+import model.enums.SortType;
 import model.enums.Status;
 import model.enums.Type;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public abstract class Publication {
     protected int id;
@@ -111,8 +113,12 @@ public abstract class Publication {
     // </editor-fold>
 
     // <editor-fold desc="logical methods">
-    public abstract boolean add();
-    public abstract boolean remove();
+    public boolean add() {
+        return allPublications.add(this);
+    }
+    public boolean remove() {
+        return allPublications.remove(this);
+    }
     public String createDisplayResult() {
         return String.format(
                 " type: %s%n title: %s%n author: %s%n publication year: %s%n status: %s%n",
@@ -126,5 +132,25 @@ public abstract class Publication {
         this.author = entity.author;
         this.publicationYear = entity.publicationYear;
     }
+    public static ArrayList<Publication> sort(ArrayList<Publication> src, SortType st) {
+        ArrayList<Publication> copy = new ArrayList<>(src);
+        if (st.equals(SortType.UPWARD)) {
+            copy.sort(Comparator.comparingInt(a -> a.publicationYear.getValue()));
+        } else {
+            copy.sort(Comparator.comparingInt(a -> -1 * a.publicationYear.getValue()));
+        }
+        return copy;
+    }
     // </editor-fold>
+
+    @Override
+    public String toString() {
+        return  "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", type=" + type +
+                ", status=" + status +
+                '}';
+    }
 }

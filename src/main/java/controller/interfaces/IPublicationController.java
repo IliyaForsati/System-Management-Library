@@ -10,6 +10,6 @@ public interface IPublicationController<T extends Publication> {
     ResultDTO update(T dist, T src);
     ResultDTO remove(T entity);
     ResultDTO print(SortType st);
-    ResultDTO search(SortType st);
+    ResultDTO search(String key, SortType st);
     ResultDTO run(String[] args);
 }

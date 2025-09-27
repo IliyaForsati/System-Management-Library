@@ -6,6 +6,7 @@ import model.ResultDTO;
 import model.enums.SortType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 abstract class PublicationController<T extends Publication> implements IPublicationController<T> {
     @SuppressWarnings("unchecked")
@@ -26,10 +27,45 @@ abstract class PublicationController<T extends Publication> implements IPublicat
         return new ResultDTO(entity.createDisplayResult(), true);
     }
     public ResultDTO print(SortType st) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        ArrayList<Publication> allEntity = Publication.allPublications;
+        ArrayList<Publication> all = new ArrayList<>();
+        Class<T> clazz = getClazz();
+
+        for (Publication entity : allEntity) {
+            assert clazz != null;
+            if (clazz.isInstance(entity)) {
+                all.add(entity);
+            }
+        }
+
+        all = Publication.sort(all, st);
+
+        StringBuilder sb = new StringBuilder();
+        for (Publication entity : all)
+            sb.append(entity.toString()).append('\n');
+
+        return new ResultDTO(sb.toString(), true);
     }
-    public ResultDTO search(SortType st) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+    public ResultDTO search(String key, SortType st) {
+        ArrayList<Publication> allEntity = Publication.allPublications;
+        ArrayList<Publication> all = new ArrayList<>();
+        Class<T> clazz = getClazz();
+
+        for (Publication entity : allEntity) {
+            assert clazz != null;
+            if (clazz.isInstance(entity)) {
+                if (entity.getTitle().contains(key) || entity.getAuthor().contains(key))
+                    all.add(entity);
+            }
+        }
+
+        all = Publication.sort(all, st);
+
+        StringBuilder sb = new StringBuilder();
+        for (Publication entity : all)
+            sb.append(entity.toString()).append('\n');
+
+        return new ResultDTO(sb.toString(), true);
     }
     public ResultDTO update(T dist, T src) {
         dist.update(src);
