@@ -20,8 +20,9 @@ abstract class PublicationController<T extends Publication> implements IPublicat
     }
 
     public ResultDTO add(T entity) {
-        entity.add();
-        return new ResultDTO("added successfully", true);
+        boolean isSuccessful = entity.add();
+        return new ResultDTO(isSuccessful ? "added successfully" : "can not add entity. please try again."
+                , isSuccessful);
     }
     public ResultDTO display(T entity) {
         return new ResultDTO(entity.createDisplayResult(), true);
@@ -38,7 +39,8 @@ abstract class PublicationController<T extends Publication> implements IPublicat
             }
         }
 
-        all = Publication.sort(all, st);
+        if (st != null)
+            all = Publication.sort(all, st);
 
         StringBuilder sb = new StringBuilder();
         for (Publication entity : all)
@@ -59,7 +61,8 @@ abstract class PublicationController<T extends Publication> implements IPublicat
             }
         }
 
-        all = Publication.sort(all, st);
+        if (st != null)
+            all = Publication.sort(all, st);
 
         StringBuilder sb = new StringBuilder();
         for (Publication entity : all)

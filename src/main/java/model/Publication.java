@@ -141,6 +141,13 @@ public abstract class Publication {
         }
         return copy;
     }
+    public static Publication findByTitle(String title) {
+        for (Publication entity : allPublications) {
+            if (entity.title.equals(title))
+                return entity;
+        }
+        return null;
+    }
     // </editor-fold>
 
     @Override
@@ -150,7 +157,6 @@ public abstract class Publication {
                 ", author='" + author + '\'' +
                 ", publicationYear=" + publicationYear +
                 ", type=" + type +
-                ", status=" + status +
-                '}';
+                ", status=" + status;
     }
 }
