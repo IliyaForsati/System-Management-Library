@@ -3,9 +3,10 @@ package controller;
 import model.ResultDTO;
 import model.enums.SortType;
 import services.ArticleService;
+import services.interfaces.IArticleService;
 
 public class ArticleController {
-    public static final ArticleService service = ArticleService.getInstance();
+    public static final IArticleService service = ArticleService.getInstance();
     public static ResultDTO run(String[] args) {
         try {
             String command = args[0];

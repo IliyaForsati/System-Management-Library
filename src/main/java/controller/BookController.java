@@ -3,9 +3,10 @@ package controller;
 import model.ResultDTO;
 import model.enums.SortType;
 import services.BookService;
+import services.interfaces.IBookService;
 
 public class BookController {
-    public static final BookService service = BookService.getInstance();
+    public static final IBookService service = BookService.getInstance();
     public static ResultDTO run(String[] args) {
         try {
             String command = args[0];

@@ -1,13 +1,12 @@
 package controller;
 
-import model.Dissertation;
 import model.ResultDTO;
 import model.enums.SortType;
-import services.ArticleService;
 import services.DissertationService;
+import services.interfaces.IDissertationService;
 
 public class DissertationController {
-    public static final DissertationService service = DissertationService.getInstance();
+    public static final IDissertationService service = DissertationService.getInstance();
     public static ResultDTO run(String[] args) {
         try {
             String command = args[0];

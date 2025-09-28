@@ -3,9 +3,10 @@ package controller;
 import model.ResultDTO;
 import model.enums.SortType;
 import services.MagazineService;
+import services.interfaces.IMagazineService;
 
 public class MagazineController {
-    public static final MagazineService service = MagazineService.getInstance();
+    public static final IMagazineService service = MagazineService.getInstance();
     public static ResultDTO run(String[] args) {
         try {
             String command = args[0];
