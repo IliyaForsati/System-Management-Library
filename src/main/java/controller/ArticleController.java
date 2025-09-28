@@ -1,24 +1,49 @@
 package controller;
 
-import controller.interfaces.IArticleController;
-import model.Article;
 import model.ResultDTO;
+import model.enums.SortType;
+import services.ArticleService;
 
-class ArticleController
-        extends PublicationController<Article>
-        implements IArticleController
-{
-    @Override
-    public ResultDTO run(String[] args) {
-        return null;
-    }
+public class ArticleController {
+    public static final ArticleService service = ArticleService.getInstance();
+    public static ResultDTO run(String[] args) {
+        try {
+            String command = args[0];
+            switch (command) {
+                case "add" -> {
+                    return service.add(args[1], args[2], args[3], args[4]);
+                }
+                case "display" -> {
+                    return service.display(args[1]);
+                }
+                case "print" -> {
+                    if (args.length > 1) {
+                        return service.print(SortType.valueOf(args[1]));
+                    }
 
-    private static ArticleController instance = null;
-    private ArticleController() {}
-    public static ArticleController getInstance() {
-        if (instance != null) return instance;
+                    return service.print(null);
+                }
+                case "search" -> {
+                    String keyWord = args[1];
 
-        instance = new ArticleController();
-        return  instance;
+                    if (args.length > 2) {
+                        return service.search(keyWord, SortType.valueOf(args[2]));
+                    }
+
+                    return service.search(keyWord, null);
+                }
+                case "update" -> {
+                    return service.update(args[1], args[2], args[3], args[4], args[5]);
+                }
+                case "remove" -> {
+                    return service.remove(args[1]);
+                }
+                default -> {
+                    return new ResultDTO("invalid command", false);
+                }
+            }
+        } catch (Exception e) {
+            return new ResultDTO("invalid command!", false);
+        }
     }
 }

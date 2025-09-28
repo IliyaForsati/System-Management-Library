@@ -1,5 +1,6 @@
 package controller;
 
+import services.interfaces.*;
 import model.ResultDTO;
 
 import java.util.Arrays;
@@ -10,21 +11,20 @@ public class MainController {
         String[] args = Arrays.copyOfRange(inputLine, 1, inputLine.length);
 
         switch (command) {
+            case "user" -> {
+                return UserController.run(args);
+            }
             case "book" -> {
-                BookController bc = BookController.getInstance();
-                return bc.run(args);
+                return BookController.run(args);
             }
             case "magazine" -> {
-                MagazineController mc = MagazineController.getInstance();
-                return mc.run(args);
+                return MagazineController.run(args);
             }
             case "dissertation" -> {
-                DissertationController dc = DissertationController.getInstance();
-                return dc.run(args);
+                return DissertationController.run(args);
             }
             case "article" -> {
-                ArticleController ac = ArticleController.getInstance();
-                return ac.run(args);
+                return ArticleController.run(args);
             }
             default -> {
                 return new ResultDTO("we have no " + command + " in this library", false);

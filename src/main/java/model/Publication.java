@@ -6,9 +6,10 @@ import model.enums.Type;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 public abstract class Publication {
-    protected int id;
+    protected int id = new Random().nextInt(1000, 9999);
     protected String title;
     protected String author;
     protected Year publicationYear;
@@ -141,9 +142,9 @@ public abstract class Publication {
         }
         return copy;
     }
-    public static Publication findByTitle(String title) {
+    public static Publication findById(int id) {
         for (Publication entity : allPublications) {
-            if (entity.title.equals(title))
+            if (entity.id == id)
                 return entity;
         }
         return null;

@@ -13,7 +13,7 @@ public class Magazine extends Publication {
         }
 
         @Override
-        public Publication build() {
+        public Magazine build() {
             return new Magazine(this);
         }
     }

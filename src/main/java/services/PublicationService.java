@@ -1,14 +1,15 @@
-package controller;
+package services;
 
-import controller.interfaces.IPublicationController;
 import model.Publication;
 import model.ResultDTO;
 import model.enums.SortType;
+import services.interfaces.IPublicationService;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-abstract class PublicationController<T extends Publication> implements IPublicationController<T> {
+abstract class PublicationService<T extends Publication> implements IPublicationService<T> {
     @SuppressWarnings("unchecked")
     private Class<T> getClazz() {
         Type superClass = getClass().getGenericSuperclass();
@@ -56,7 +57,8 @@ abstract class PublicationController<T extends Publication> implements IPublicat
         for (Publication entity : allEntity) {
             assert clazz != null;
             if (clazz.isInstance(entity)) {
-                if (entity.getTitle().contains(key) || entity.getAuthor().contains(key))
+                if (entity.getTitle().contains(key) || entity.getAuthor().contains(key) ||
+                    entity.getType().toString().contains(key) || entity.getStatus().toString().contains(key))
                     all.add(entity);
             }
         }

@@ -13,7 +13,7 @@ public class Dissertation extends Publication {
         }
 
         @Override
-        public Publication build() {
+        public Dissertation build() {
             return new Dissertation(this);
         }
     }

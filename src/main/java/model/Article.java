@@ -13,7 +13,7 @@ public class Article extends Publication {
         }
 
         @Override
-        public Publication build() {
+        public Article build() {
             return new Article(this);
         }
     }
