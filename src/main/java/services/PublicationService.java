@@ -61,30 +61,24 @@ abstract class PublicationService<T extends Publication> implements IPublication
         }
     }
 
-    public ResultDTO add(T entity) {
+    public boolean add(T entity) {
         allData.add(entity);
         updateJsonFile();
-        return new ResultDTO("successfully added", true);
+        return true;
     }
-    protected T findById(int id) {
+    public T getById(int id) {
         for (T entity : allData) {
             if (entity.getId() == id)
                 return entity;
         }
         return null;
     }
-    public ResultDTO display(int entityId) {
-        T entity = findById(entityId);
-        if (entity == null)
-            return new ResultDTO("dist does not exist!", false);
-        return new ResultDTO(entity.toString(), true);
-    }
-    public ResultDTO print(SortType st) {
+    public ArrayList<T> getAll(SortType st) {
         if (st != null)
-            return new ResultDTO(printResult(sort(allData, st)), true);
-        return new ResultDTO(printResult(allData), true);
+            return sort(allData, st);
+        return allData;
     }
-    public ResultDTO search(String key, SortType st) {
+    public ArrayList<T> search(String key, SortType st) {
         ArrayList<T> filteredData = new ArrayList<>();
         for (T entity : allData) {
             if (entity.getTitle().contains(key) || entity.getAuthor().contains(key) ||
@@ -95,31 +89,25 @@ abstract class PublicationService<T extends Publication> implements IPublication
         if (st != null)
             filteredData = sort(filteredData, st);
 
-        return new ResultDTO(printResult(filteredData), true);
+        return filteredData;
     }
-    public ResultDTO update(int distId, T src) {
-        T dist = findById(distId);
+    public boolean update(int distId, T src) {
+        T dist = getById(distId);
         if (dist == null)
-            return new ResultDTO("dist does not exist!", false);
+            return false;
         copyFields(src, dist);
         updateJsonFile();
-        return new ResultDTO("updated successfully.", true);
+        return true;
     }
-    public ResultDTO remove(int entityId) {
-        T entity = findById(entityId);
+    public boolean remove(int entityId) {
+        T entity = getById(entityId);
         if (entity == null)
-            return new ResultDTO("dist does not exist!", false);
+            return false;
         allData.remove(entity);
         updateJsonFile();
-        return new ResultDTO("removed successfully.", true);
+        return true;
     }
 
-    protected String printResult(ArrayList<T> src) {
-        StringBuilder sb = new StringBuilder();
-        for (T entity : src)
-            sb.append(entity.toString()).append('\n');
-        return sb.toString();
-    }
     protected ArrayList<T> sort(ArrayList<T> src, SortType st) {
         ArrayList<T> copy = new ArrayList<>(src);
         if (st.equals(SortType.UPWARD)) {
@@ -129,7 +117,7 @@ abstract class PublicationService<T extends Publication> implements IPublication
         }
         return copy;
     }
-    public static <T> void copyFields(T source, T target) {
+    protected static <T> void copyFields(T source, T target) {
         if (source == null || target == null) throw new IllegalArgumentException("Source and target cannot be null");
         Class<?> clazz = source.getClass();
         if (!clazz.equals(target.getClass())) {

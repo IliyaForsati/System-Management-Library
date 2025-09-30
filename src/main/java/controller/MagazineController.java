@@ -19,10 +19,10 @@ public class MagazineController {
                 }
                 case "print" -> {
                     if (args.length > 1) {
-                        return service.print(SortType.valueOf(args[1]));
+                        return service.getAll(SortType.valueOf(args[1]));
                     }
 
-                    return service.print(null);
+                    return service.getAll(null);
                 }
                 case "search" -> {
                     String keyWord = args[1];

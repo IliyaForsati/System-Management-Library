@@ -8,15 +8,6 @@ import model.ResultDTO;
 import java.util.ArrayList;
 
 public class UserService implements IUserService {
-    private static UserService instance = null;
-    private UserService() {}
-    public static UserService getInstance() {
-        if (instance != null) return instance;
-
-        instance = new UserService();
-        return instance;
-    }
-
     public ResultDTO borrow(int id) {
         Publication publication = Publication.findById(id);
 

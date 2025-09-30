@@ -4,11 +4,13 @@ import model.Publication;
 import model.ResultDTO;
 import model.enums.SortType;
 
+import java.util.ArrayList;
+
 public interface IPublicationService<T extends Publication> {
-    ResultDTO display(int entityId);
-    ResultDTO add(T entity);
-    ResultDTO update(int distId, T src);
-    ResultDTO remove(int entityId);
-    ResultDTO print(SortType st);
-    ResultDTO search(String key, SortType st);
+    boolean add(T entity);
+    T getById(int id);
+    ArrayList<T> getAll(SortType st);
+    ArrayList<T> search(String key, SortType st);
+    boolean update(int distId, T src);
+    boolean remove(int entityId);
 }
