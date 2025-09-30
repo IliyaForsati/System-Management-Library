@@ -15,6 +15,4 @@ public class ArticleService
         instance = new ArticleService();
         return  instance;
     }
-
-
 }

@@ -5,10 +5,10 @@ import model.ResultDTO;
 import model.enums.SortType;
 
 public interface IPublicationService<T extends Publication> {
-    ResultDTO display(T entity);
+    ResultDTO display(int entityId);
     ResultDTO add(T entity);
-    ResultDTO update(T dist, T src);
-    ResultDTO remove(T entity);
+    ResultDTO update(int distId, T src);
+    ResultDTO remove(int entityId);
     ResultDTO print(SortType st);
     ResultDTO search(String key, SortType st);
 }

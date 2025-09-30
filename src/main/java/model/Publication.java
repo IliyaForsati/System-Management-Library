@@ -1,12 +1,9 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.enums.SortType;
 import model.enums.Status;
 import model.enums.Type;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
 
 public abstract class Publication {
