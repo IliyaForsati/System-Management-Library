@@ -7,5 +7,5 @@ public class ArticleService
         extends PublicationService<Article>
         implements IArticleService
 {
-    
+
 }

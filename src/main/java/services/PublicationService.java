@@ -2,7 +2,6 @@ package services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Publication;
-import model.ResultDTO;
 import model.enums.SortType;
 import services.interfaces.IPublicationService;
 import java.io.File;
@@ -25,7 +24,7 @@ abstract class PublicationService<T extends Publication> implements IPublication
 
     @SuppressWarnings("unchecked")
     protected Class<T> getClazz() {
-        Type superClass = getClass().getGenericSuperclass();
+        Type superClass = this.getClass().getGenericSuperclass();
         if (superClass instanceof ParameterizedType) {
             Type actualType = ((ParameterizedType) superClass).getActualTypeArguments()[0];
             return (Class<T>) actualType;
@@ -111,9 +110,9 @@ abstract class PublicationService<T extends Publication> implements IPublication
     protected ArrayList<T> sort(ArrayList<T> src, SortType st) {
         ArrayList<T> copy = new ArrayList<>(src);
         if (st.equals(SortType.UPWARD)) {
-            copy.sort(Comparator.comparingInt(a -> a.getPublicationYear().getValue()));
+            copy.sort(Comparator.comparingInt(Publication::getPublicationYear));
         } else {
-            copy.sort(Comparator.comparingInt(a -> -1 * a.getPublicationYear().getValue()));
+            copy.sort(Comparator.comparingInt(a -> -1 * a.getPublicationYear()));
         }
         return copy;
     }

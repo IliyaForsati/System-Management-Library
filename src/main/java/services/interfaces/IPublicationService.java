@@ -1,7 +1,6 @@
 package services.interfaces;
 
 import model.Publication;
-import model.ResultDTO;
 import model.enums.SortType;
 
 import java.util.ArrayList;
