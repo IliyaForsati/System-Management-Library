@@ -2,15 +2,15 @@ package controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import controller.interfaces.IPublicationController;
 import model.Publication;
 import model.enums.SortType;
 import services.interfaces.IPublicationService;
 import settings.serviceProvider.ServiceProvider;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Objects;
 
-public class PublicationController<T extends Publication> {
+public class PublicationController<T extends Publication> implements IPublicationController<T> {
     private final Class<T> clazz = getClazz();
     private final IPublicationService<T> service =ServiceProvider.mainScope
             .getService(model.enums.Type.getServiceByModelClass(clazz));
@@ -23,7 +23,7 @@ public class PublicationController<T extends Publication> {
                     JsonNode node = mapper.valueToTree(bodyJSON);
 
                     T entity = mapper.convertValue(node.get("entity"), clazz);
-
+                    System.out.println(entity);
                     if (service.add(entity)) {
                         return "added successfully";
                     }
@@ -38,10 +38,9 @@ public class PublicationController<T extends Publication> {
                 case "getAll" -> {
                     String stStr = mapper.valueToTree(bodyJSON).get("sortType").asText();
                     SortType st;
-                    if (!Objects.equals(stStr, "")) {
+                    if (!stStr.isEmpty() && !stStr.equals("null")) {
                         st = SortType.valueOf(stStr);
                     } else st = null;
-
                     return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.getAll(st));
                 }
                 case "search" -> {
@@ -50,7 +49,7 @@ public class PublicationController<T extends Publication> {
 
                     String stStr = node.get("sortType").asText();
                     SortType st;
-                    if (!Objects.equals(stStr, "")) {
+                    if (!stStr.isEmpty() && !stStr.equals("null")) {
                         st = SortType.valueOf(stStr);
                     } else st = null;
 
@@ -59,7 +58,7 @@ public class PublicationController<T extends Publication> {
                 case "update" -> {
                     JsonNode node = mapper.valueToTree(bodyJSON);
 
-                    int id = node.get("distId").asInt();
+                    int id = node.get("id").asInt();
                     T entity = mapper.convertValue(node.get("entity"), clazz);
 
                     if (service.update(id, entity)) {

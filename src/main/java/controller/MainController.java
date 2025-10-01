@@ -1,7 +1,6 @@
 package controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
@@ -12,17 +11,17 @@ public class MainController {
         Map<String, Object> map = mapper.readValue(json, Map.class);
 
         if (map.get("controller").equals("book")) {
-            new BookController().run(map.get("command").toString(), map.get("body"));
+            return new BookController().run(map.get("command").toString(), map.get("body"));
         }
-        return null;
-//        else if (map.get("controller").equals("article")) {
-//            ArticleController.run(map.get("command"), map.get("body"));
-//        }
-//        else if (map.get("controller").equals("magazine")) {
-//            MagazineController.run(map.get("command"), map.get("body"));
-//        }
-//        else if (map.get("controller").equals("dissertation")) {
-//            DissertationController.run(map.get("command"), map.get("body"));
-//        }
+        else if (map.get("controller").equals("article")) {
+            return new ArticleController().run(map.get("command").toString(), map.get("body"));
+        }
+        else if (map.get("controller").equals("magazine")) {
+            return new MagazineController().run(map.get("command").toString(), map.get("body"));
+        }
+        else if (map.get("controller").equals("dissertation")) {
+            return new DissertationController().run(map.get("command").toString(), map.get("body"));
+        }
+        return "invalid controller";
     }
 }

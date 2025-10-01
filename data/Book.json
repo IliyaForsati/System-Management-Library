@@ -1,1 +1,22 @@
-[ null ]
+[ {
+  "id" : 5132,
+  "title" : "b1",
+  "author" : "a",
+  "publicationYear" : 2021,
+  "type" : "BOOK",
+  "status" : "EXIST"
+}, {
+  "id" : 4883,
+  "title" : "b2",
+  "author" : "a",
+  "publicationYear" : 2021,
+  "type" : "BOOK",
+  "status" : "EXIST"
+}, {
+  "id" : 1175,
+  "title" : "b3",
+  "author" : "a",
+  "publicationYear" : 2021,
+  "type" : "BOOK",
+  "status" : "EXIST"
+} ]

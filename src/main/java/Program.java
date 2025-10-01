@@ -27,13 +27,18 @@ public class Program {
     private static void mainLoop() throws IOException {
         while (true) {
             String req = network.getRequest();
-            String res = MainController.run(req);
-            network.sendResponse(res);
+
+            try {
+                String res = MainController.run(req);
+                network.sendResponse(res);
+            } catch (Exception e) {
+                network.sendResponse("something went wrong! \n" + e);
+            }
         }
     }
 
     // start of program
-    static int port = 8000;
+    static int port = 8088;
     public static void main(String[] args) throws IOException {
         checkArgs(args);
 
