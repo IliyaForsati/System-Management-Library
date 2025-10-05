@@ -12,6 +12,7 @@ public abstract class Publication {
     protected int publicationYear;
     protected Type type;
     protected Status status;
+    protected BorrowHistory borrowHistory;
 
     // <editor-fold desc="getters">
     public int getId() {

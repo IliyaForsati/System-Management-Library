@@ -1,5 +1,6 @@
 package controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.interfaces.IPublicationController;
@@ -16,72 +17,6 @@ public class PublicationController<T extends Publication> implements IPublicatio
             .getService(model.enums.Type.getServiceByModelClass(clazz));
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public String run(String command, Object bodyJSON) {
-        try {
-            switch (command) {
-                case "add" -> {
-                    JsonNode node = mapper.valueToTree(bodyJSON);
-
-                    T entity = mapper.convertValue(node.get("entity"), clazz);
-                    System.out.println(entity);
-                    if (service.add(entity)) {
-                        return "added successfully";
-                    }
-                    return null;
-                }
-                case "get" -> {
-                    int id = mapper.valueToTree(bodyJSON).get("id").asInt();
-                    T entity = service.getById(id);
-
-                    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(entity);
-                }
-                case "getAll" -> {
-                    String stStr = mapper.valueToTree(bodyJSON).get("sortType").asText();
-                    SortType st;
-                    if (!stStr.isEmpty() && !stStr.equals("null")) {
-                        st = SortType.valueOf(stStr);
-                    } else st = null;
-                    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.getAll(st));
-                }
-                case "search" -> {
-                    JsonNode node = mapper.valueToTree(bodyJSON);
-                    String key = node.get("key").asText();
-
-                    String stStr = node.get("sortType").asText();
-                    SortType st;
-                    if (!stStr.isEmpty() && !stStr.equals("null")) {
-                        st = SortType.valueOf(stStr);
-                    } else st = null;
-
-                    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.search(key, st));
-                }
-                case "update" -> {
-                    JsonNode node = mapper.valueToTree(bodyJSON);
-
-                    int id = node.get("id").asInt();
-                    T entity = mapper.convertValue(node.get("entity"), clazz);
-
-                    if (service.update(id, entity)) {
-                        return "added successfully";
-                    }
-                    return null;
-                }
-                case "remove" -> {
-                    int id = mapper.valueToTree(bodyJSON).get("id").asInt();
-
-                    if (service.remove(id))
-                        return "removed successfully";
-                    return null;
-                }
-                default -> {
-                    return null;
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     @SuppressWarnings("unchecked")
     protected Class<T> getClazz() {
         Type superClass = this.getClass().getGenericSuperclass();
@@ -90,5 +25,65 @@ public class PublicationController<T extends Publication> implements IPublicatio
             return (Class<T>) actualType;
         }
         throw new RuntimeException("Cannot determine generic type for class " + getClass().getName());
+    }
+
+
+    public String add(String bodyJSON) {
+        JsonNode node = mapper.valueToTree(bodyJSON);
+
+        T entity = mapper.convertValue(node.get("entity"), clazz);
+        if (service.add(entity)) {
+            return "added successfully";
+        }
+        return null;
+    }
+
+    public String getById(String bodyJSON) throws JsonProcessingException {
+        int id = mapper.valueToTree(bodyJSON).get("id").asInt();
+        T entity = service.getById(id);
+
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(entity);
+    }
+
+    public String getAll(String bodyJSON) throws JsonProcessingException {
+        String stStr = mapper.valueToTree(bodyJSON).get("sortType").asText();
+        SortType st;
+        if (!stStr.isEmpty() && !stStr.equals("null")) {
+            st = SortType.valueOf(stStr);
+        } else st = null;
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.getAll(st));
+    }
+
+    public String search(String bodyJSON) throws JsonProcessingException {
+        JsonNode node = mapper.valueToTree(bodyJSON);
+        String key = node.get("key").asText();
+
+        String stStr = node.get("sortType").asText();
+        SortType st;
+        if (!stStr.isEmpty() && !stStr.equals("null")) {
+            st = SortType.valueOf(stStr);
+        } else st = null;
+
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.search(key, st));
+    }
+
+    public String update(String bodyJSON) {
+        JsonNode node = mapper.valueToTree(bodyJSON);
+
+        int id = node.get("id").asInt();
+        T entity = mapper.convertValue(node.get("entity"), clazz);
+
+        if (service.update(id, entity)) {
+            return "added successfully";
+        }
+        return null;
+    }
+
+    public String remove(String bodyJSON) {
+        int id = mapper.valueToTree(bodyJSON).get("id").asInt();
+
+        if (service.remove(id))
+            return "removed successfully";
+        return null;
     }
 }

@@ -1,8 +1,18 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controller.MainController;
+import controller.*;
+import controller.interfaces.*;
+import model.Article;
+import model.Book;
+import model.Dissertation;
+import model.Magazine;
 import services.ArticleService;
 import services.BookService;
+import services.DissertationService;
 import services.MagazineService;
+import services.interfaces.IArticleService;
+import services.interfaces.IBookService;
+import services.interfaces.IDissertationService;
+import services.interfaces.IMagazineService;
 import settings.network.TCPNetwork;
 import settings.serviceProvider.ServiceProvider;
 import java.io.*;
@@ -17,10 +27,18 @@ public class Program {
     // dependency injection
     public static final ServiceProvider serviceProvider = ServiceProvider.mainScope;
     static {
-        serviceProvider.addSingleton(BookService.class, BookService::new);
-        serviceProvider.addSingleton(ArticleService.class, ArticleService::new);
-        serviceProvider.addSingleton(MagazineService.class, MagazineService::new);
+        // add services
+        serviceProvider.addSingleton(IBookService.class, BookService::new);
+        serviceProvider.addSingleton(IArticleService.class, ArticleService::new);
+        serviceProvider.addSingleton(IMagazineService.class, MagazineService::new);
+        serviceProvider.addSingleton(IDissertationService.class, DissertationService::new);
 //        serviceProvider.addSingleton(UserService.class, UserService::new);
+
+        // add controller
+        serviceProvider.addSingleton(IBookController.class, BookController::new);
+        serviceProvider.addSingleton(IArticleController.class, ArticleController::new);
+        serviceProvider.addSingleton(IMagazineController.class, MagazineController::new);
+        serviceProvider.addSingleton(IDissertationController.class, DissertationController::new);
     }
 
     // mainLoop of program
