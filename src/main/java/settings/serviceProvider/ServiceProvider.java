@@ -51,7 +51,7 @@ public class ServiceProvider {
 
     public ServiceProvider createScope() {
         ServiceProvider scopedProvider = new ServiceProvider();
-        scopedProvider.services.putAll(this.services); // کپی descriptor ها
+        scopedProvider.services.putAll(this.services);
         return scopedProvider;
     }
 }

@@ -1,18 +1,8 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.*;
 import controller.interfaces.*;
-import model.Article;
-import model.Book;
-import model.Dissertation;
-import model.Magazine;
-import services.ArticleService;
-import services.BookService;
-import services.DissertationService;
-import services.MagazineService;
-import services.interfaces.IArticleService;
-import services.interfaces.IBookService;
-import services.interfaces.IDissertationService;
-import services.interfaces.IMagazineService;
+import services.*;
+import services.interfaces.*;
 import settings.network.TCPNetwork;
 import settings.serviceProvider.ServiceProvider;
 import java.io.*;
@@ -20,9 +10,6 @@ import java.io.*;
 public class Program {
     // TCPNetwork setup
     static TCPNetwork network;
-
-    // jackson setup
-    public final static ObjectMapper mapper = new ObjectMapper();
 
     // dependency injection
     public static final ServiceProvider serviceProvider = ServiceProvider.mainScope;
@@ -32,7 +19,8 @@ public class Program {
         serviceProvider.addSingleton(IArticleService.class, ArticleService::new);
         serviceProvider.addSingleton(IMagazineService.class, MagazineService::new);
         serviceProvider.addSingleton(IDissertationService.class, DissertationService::new);
-//        serviceProvider.addSingleton(UserService.class, UserService::new);
+        serviceProvider.addSingleton(IUserService.class, UserService::new);
+        serviceProvider.addSingleton(IBorrowService.class, BorrowService::new);
 
         // add controller
         serviceProvider.addSingleton(IBookController.class, BookController::new);
@@ -47,8 +35,9 @@ public class Program {
             String req = network.getRequest();
 
             try {
-                String res = MainController.run(req);
-                network.sendResponse(res);
+                // todo
+//                String res = MainController.run(req);
+//                network.sendResponse(res);
             } catch (Exception e) {
                 network.sendResponse("something went wrong! \n" + e);
             }

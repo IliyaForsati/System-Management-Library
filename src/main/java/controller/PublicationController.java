@@ -15,7 +15,6 @@ public class PublicationController<T extends Publication> implements IPublicatio
     private final Class<T> clazz = getClazz();
     private final IPublicationService<T> service =ServiceProvider.mainScope
             .getService(model.enums.Type.getServiceByModelClass(clazz));
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @SuppressWarnings("unchecked")
     protected Class<T> getClazz() {

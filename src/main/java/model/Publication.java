@@ -1,6 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.enums.Status;
 import model.enums.Type;
 import java.util.Random;
@@ -37,6 +36,14 @@ public abstract class Publication {
 
     public Status getStatus() {
         return status;
+    }
+
+    public BorrowHistory getBorrowHistory() {
+        return borrowHistory;
+    }
+
+    public void setBorrowHistory(BorrowHistory borrowHistory) {
+        this.borrowHistory = borrowHistory;
     }
     // </editor-fold>
 

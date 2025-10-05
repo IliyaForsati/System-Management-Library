@@ -1,23 +1,21 @@
 package model;
 
-import java.util.Random;
+import util.Argon2id;
+
+import java.util.ArrayList;
 
 public class User {
-    private final int id = new Random().nextInt(1000, 9999);
-    private final String name;
+    private final String username;
     private final String password;
+    public final ArrayList<BorrowHistory> borrowHistories = new ArrayList<>();
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = Argon2id.hashPassword(password);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {

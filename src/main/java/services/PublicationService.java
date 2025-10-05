@@ -16,7 +16,7 @@ import java.util.Comparator;
 abstract class PublicationService<T extends Publication> implements IPublicationService<T> {
     // for caching
     protected ArrayList<T> allData;
-    protected ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper mapper = new ObjectMapper();
     File dataFile;
     {
         loadFromFile();
@@ -34,7 +34,7 @@ abstract class PublicationService<T extends Publication> implements IPublication
     protected void loadFromFile() {
         Class<T> clazz = getClazz();
         String clazzName = clazz.getSimpleName();
-        dataFile = new File("data/" + clazzName + ".json");
+        dataFile = new File("data/publications/" + clazzName + ".json");
 
         try {
             if (!dataFile.exists()) {

@@ -4,14 +4,41 @@ import java.time.LocalDate;
 import java.util.Random;
 
 public class BorrowHistory {
-    private final int id = new Random().nextInt(1000, 9999);
+    private User user;
     private Publication publication;
     private LocalDate start;
     private LocalDate end;
 
+    public BorrowHistory(User user, Publication publication) {
+        this.user = user;
+        this.publication = publication;
+        this.start = LocalDate.now();
+        this.end = null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public LocalDate getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
+
     @Override
     public String toString() {
-        return  "id=" + id +
+        return  "user=" + user +
                 ", publication=" + publication +
                 ", start=" + start +
                 ", end=" + end;
