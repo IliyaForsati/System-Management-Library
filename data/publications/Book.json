@@ -1,0 +1,9 @@
+[ {
+  "id" : 6980,
+  "title" : "b1",
+  "author" : "a1",
+  "publicationYear" : 2020,
+  "type" : "BOOK",
+  "status" : "EXIST",
+  "borrowHistory" : null
+} ]

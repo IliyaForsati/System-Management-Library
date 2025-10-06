@@ -13,7 +13,7 @@ public class UserController implements IUserController {
         UserDTO user = new UserDTO();
         user.setUsername(username);
         user.setPassword(password);
-        return service.login(user);
+        return service.register(user);
     }
 
     public String login(String username, String password) {

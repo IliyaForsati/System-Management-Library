@@ -1,9 +1,15 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import model.enums.Status;
 import model.enums.Type;
 import java.util.Random;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.CLASS,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@class"
+)
 public abstract class Publication {
     protected int id = new Random().nextInt(1000, 9999);
     protected String title;
