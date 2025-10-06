@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public interface IPublicationController<T extends Publication> extends IController {
     String add(String json);
-    String getById(String json) throws JsonProcessingException;
+    String getById(int id) throws JsonProcessingException;
     String getAll(String json) throws JsonProcessingException;
-    String search(String json) throws JsonProcessingException;
-    String update(String json);
-    String remove(String json);
+    String search(String key, String stStr) throws JsonProcessingException;
+    String update(int id, String bodyJSON);
+    String remove(int id);
 }

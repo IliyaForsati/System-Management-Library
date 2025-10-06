@@ -6,6 +6,7 @@ import controller.interfaces.IPublicationController;
 import model.Publication;
 import model.enums.SortType;
 import services.interfaces.IPublicationService;
+import settings.annotations.Route;
 import settings.serviceProvider.ServiceProvider;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -25,7 +26,6 @@ public class PublicationController<T extends Publication> implements IPublicatio
         throw new RuntimeException("Cannot determine generic type for class " + getClass().getName());
     }
 
-
     public String add(String bodyJSON) {
         JsonNode node = mapper.valueToTree(bodyJSON);
 
@@ -36,15 +36,13 @@ public class PublicationController<T extends Publication> implements IPublicatio
         return null;
     }
 
-    public String getById(String bodyJSON) throws JsonProcessingException {
-        int id = mapper.valueToTree(bodyJSON).get("id").asInt();
+    public String getById(int id) throws JsonProcessingException {
         T entity = service.getById(id);
 
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(entity);
     }
 
-    public String getAll(String bodyJSON) throws JsonProcessingException {
-        String stStr = mapper.valueToTree(bodyJSON).get("sortType").asText();
+    public String getAll(String stStr) throws JsonProcessingException {
         SortType st;
         if (!stStr.isEmpty() && !stStr.equals("null")) {
             st = SortType.valueOf(stStr);
@@ -52,11 +50,7 @@ public class PublicationController<T extends Publication> implements IPublicatio
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.getAll(st));
     }
 
-    public String search(String bodyJSON) throws JsonProcessingException {
-        JsonNode node = mapper.valueToTree(bodyJSON);
-        String key = node.get("key").asText();
-
-        String stStr = node.get("sortType").asText();
+    public String search(String key, String stStr) throws JsonProcessingException {
         SortType st;
         if (!stStr.isEmpty() && !stStr.equals("null")) {
             st = SortType.valueOf(stStr);
@@ -65,10 +59,8 @@ public class PublicationController<T extends Publication> implements IPublicatio
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.search(key, st));
     }
 
-    public String update(String bodyJSON) {
+    public String update(int id, String bodyJSON) {
         JsonNode node = mapper.valueToTree(bodyJSON);
-
-        int id = node.get("id").asInt();
         T entity = mapper.convertValue(node.get("entity"), clazz);
 
         if (service.update(id, entity)) {
@@ -77,9 +69,7 @@ public class PublicationController<T extends Publication> implements IPublicatio
         return null;
     }
 
-    public String remove(String bodyJSON) {
-        int id = mapper.valueToTree(bodyJSON).get("id").asInt();
-
+    public String remove(int id) {
         if (service.remove(id))
             return "removed successfully";
         return null;
