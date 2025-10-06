@@ -8,10 +8,10 @@ import settings.interfaces.IController;
 import java.util.ArrayList;
 
 public interface IPublicationController<T extends Publication> extends IController {
-    String add(String json);
+    String add(String json) throws JsonProcessingException;
     String getById(int id) throws JsonProcessingException;
     String getAll(String json) throws JsonProcessingException;
     String search(String key, String stStr) throws JsonProcessingException;
-    String update(int id, String bodyJSON);
+    String update(int id, String bodyJSON) throws JsonProcessingException;
     String remove(int id);
 }

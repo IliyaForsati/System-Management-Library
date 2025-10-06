@@ -26,8 +26,8 @@ public class PublicationController<T extends Publication> implements IPublicatio
         throw new RuntimeException("Cannot determine generic type for class " + getClass().getName());
     }
 
-    public String add(String bodyJSON) {
-        JsonNode node = mapper.valueToTree(bodyJSON);
+    public String add(String bodyJSON) throws JsonProcessingException {
+        JsonNode node = mapper.readTree(bodyJSON);
 
         T entity = mapper.convertValue(node.get("entity"), clazz);
         if (service.add(entity)) {
@@ -59,8 +59,8 @@ public class PublicationController<T extends Publication> implements IPublicatio
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.search(key, st));
     }
 
-    public String update(int id, String bodyJSON) {
-        JsonNode node = mapper.valueToTree(bodyJSON);
+    public String update(int id, String bodyJSON) throws JsonProcessingException {
+        JsonNode node = mapper.readTree(bodyJSON);
         T entity = mapper.convertValue(node.get("entity"), clazz);
 
         if (service.update(id, entity)) {
