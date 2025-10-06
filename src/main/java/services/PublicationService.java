@@ -42,6 +42,9 @@ abstract class PublicationService<T extends Publication> implements IPublication
                 dataFile.createNewFile();
                 allData = new ArrayList<>();
             }
+            else if (dataFile.length() == 0) {
+                allData = new ArrayList<>();
+            }
             else {
                 @SuppressWarnings("unchecked")
                 Class<T[]> arrayClazz = (Class<T[]>) java.lang.reflect.Array.newInstance(clazz, 0).getClass();
@@ -49,7 +52,9 @@ abstract class PublicationService<T extends Publication> implements IPublication
                 allData = new ArrayList<>(Arrays.asList(array));
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file.");
+            allData = new ArrayList<>();
+            updateJsonFile();
         }
     }
     protected void updateJsonFile() {

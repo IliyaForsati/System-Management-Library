@@ -5,13 +5,13 @@ import services.ArticleService;
 import services.BookService;
 import services.DissertationService;
 import services.MagazineService;
-import services.interfaces.IPublicationService;
+import services.interfaces.*;
 
 public enum Type {
-    BOOK(Book.class, BookService.class),
-    MAGAZINE(Magazine.class, MagazineService.class),
-    ARTICLE(Article.class, ArticleService.class),
-    DISSERTATION(Dissertation.class, DissertationService.class);
+    BOOK(Book.class, IBookService.class),
+    MAGAZINE(Magazine.class, IMagazineService.class),
+    ARTICLE(Article.class, IArticleService.class),
+    DISSERTATION(Dissertation.class, IDissertationService.class);
 
     final Class<?> model;
     final Class<?> service;

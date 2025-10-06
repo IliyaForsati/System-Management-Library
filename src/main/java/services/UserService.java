@@ -27,6 +27,8 @@ public class UserService implements IUserService {
                 dataFile.getParentFile().mkdirs();
                 dataFile.createNewFile();
                 users = new ArrayList<>();
+            } else if (dataFile.length() == 0) {
+                users = new ArrayList<>();
             } else {
                 users = mapper.readValue(
                         dataFile,
@@ -34,7 +36,9 @@ public class UserService implements IUserService {
                 );
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file.");
+            users = new ArrayList<>();
+            saveData();
         }
     }
     private void saveData() {

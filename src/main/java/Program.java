@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.*;
 import controller.interfaces.*;
 import services.*;
@@ -24,6 +23,8 @@ public class Program {
         serviceProvider.addSingleton(IArticleController.class, ArticleController::new);
         serviceProvider.addSingleton(IMagazineController.class, MagazineController::new);
         serviceProvider.addSingleton(IDissertationController.class, DissertationController::new);
+        serviceProvider.addSingleton(IUserController.class, UserController::new);
+        serviceProvider.addSingleton(IBorrowController.class, BorrowController::new);
     }
 
     // mainLoop of program
@@ -33,13 +34,16 @@ public class Program {
         while (true) {
             System.out.print("\n> ");
             String newLine = scanner.nextLine();
-
-            System.out.println(mainController.run(newLine));
+            try {
+                System.out.println(mainController.run(newLine));
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
     // start of program
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         mainLoop();
 	}
 }
