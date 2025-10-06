@@ -1,7 +1,6 @@
 package services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import model.User;
 import model.UserDTO;
 import services.interfaces.IUserService;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService implements IUserService {
-    private ObjectMapper mapper = new ObjectMapper();
     private File dataFile;
     private User loggedInUser;
     private ArrayList<User> users;

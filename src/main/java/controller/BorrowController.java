@@ -1,6 +1,5 @@
 package controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import controller.interfaces.IBorrowController;
 import model.Publication;
 import services.interfaces.IBorrowService;

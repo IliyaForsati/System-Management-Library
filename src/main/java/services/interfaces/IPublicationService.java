@@ -1,14 +1,13 @@
 package services.interfaces;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Publication;
 import model.enums.SortType;
-
+import settings.interfaces.IService;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public interface IPublicationService<T extends Publication> {
+public interface IPublicationService<T extends Publication> extends IService {
     boolean add(T entity);
     T getById(int id);
     ArrayList<T> getAll(SortType st);
@@ -25,7 +24,6 @@ public interface IPublicationService<T extends Publication> {
 
         // Get all JSON files in the publications directory
         File[] publicationFiles = publicationsDir.listFiles((dir, name) -> name.endsWith(".json"));
-        ObjectMapper mapper = new ObjectMapper();
 
         if (publicationFiles != null) {
             for (File file : publicationFiles) {

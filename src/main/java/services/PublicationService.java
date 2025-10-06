@@ -1,6 +1,5 @@
 package services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Publication;
 import model.enums.SortType;
 import services.interfaces.IPublicationService;
@@ -16,7 +15,6 @@ import java.util.Comparator;
 abstract class PublicationService<T extends Publication> implements IPublicationService<T> {
     // for caching
     protected ArrayList<T> allData;
-    protected static final ObjectMapper mapper = new ObjectMapper();
     File dataFile;
     {
         loadFromFile();
