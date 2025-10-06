@@ -9,13 +9,17 @@ import settings.serviceProvider.ServiceProvider;
 public class UserController implements IUserController {
     public final IUserService service = ServiceProvider.mainScope.getService(IUserService.class);
 
-    public String register(String jsonBody) throws JsonProcessingException {
-        UserDTO user = mapper.readValue(jsonBody, UserDTO.class);
+    public String register(String username, String password) {
+        UserDTO user = new UserDTO();
+        user.setUsername(username);
+        user.setPassword(password);
         return service.login(user);
     }
 
-    public String login(String jsonBody) throws JsonProcessingException {
-        UserDTO user = mapper.readValue(jsonBody, UserDTO.class);
+    public String login(String username, String password) {
+        UserDTO user = new UserDTO();
+        user.setUsername(username);
+        user.setPassword(password);
         return service.login(user);
     }
 

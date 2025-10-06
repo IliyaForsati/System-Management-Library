@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controller.interfaces.IPublicationController;
 import model.Publication;
 import model.enums.SortType;
+import model.enums.Status;
 import services.interfaces.IPublicationService;
-import settings.annotations.Route;
 import settings.serviceProvider.ServiceProvider;
+
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -26,42 +28,52 @@ public class PublicationController<T extends Publication> implements IPublicatio
         throw new RuntimeException("Cannot determine generic type for class " + getClass().getName());
     }
 
-    public String add(String bodyJSON) throws JsonProcessingException {
-        JsonNode node = mapper.readTree(bodyJSON);
+    public String add(String title, String author, int publicationYear, String type, String status)
+            throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        T entity = clazz.getDeclaredConstructor().newInstance();
+        entity.setTitle(title);
+        entity.setAuthor(author);
+        entity.setPublicationYear(publicationYear);
+        entity.setType(model.enums.Type.valueOf(type));
+        entity.setStatus(Status.valueOf(status));
 
-        T entity = mapper.convertValue(node.get("entity"), clazz);
         if (service.add(entity)) {
             return "added successfully";
         }
         return null;
     }
 
-    public String getById(int id) throws JsonProcessingException {
+    public String getById(int id) {
         T entity = service.getById(id);
 
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(entity);
+        return entity.toString();
     }
 
-    public String getAll(String stStr) throws JsonProcessingException {
+    public String getAll(String stStr) {
         SortType st;
         if (!stStr.isEmpty() && !stStr.equals("null")) {
             st = SortType.valueOf(stStr);
         } else st = null;
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.getAll(st));
+        return service.getAll(st).toString();
     }
 
-    public String search(String key, String stStr) throws JsonProcessingException {
+    public String search(String key, String stStr) {
         SortType st;
         if (!stStr.isEmpty() && !stStr.equals("null")) {
             st = SortType.valueOf(stStr);
         } else st = null;
 
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.search(key, st));
+        return service.search(key, st).toString();
     }
 
-    public String update(int id, String bodyJSON) throws JsonProcessingException {
-        JsonNode node = mapper.readTree(bodyJSON);
-        T entity = mapper.convertValue(node.get("entity"), clazz);
+    public String update(int id, String title, String author, int publicationYear, String type, String status)
+            throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        T entity = clazz.getDeclaredConstructor().newInstance();
+        entity.setTitle(title);
+        entity.setAuthor(author);
+        entity.setPublicationYear(publicationYear);
+        entity.setType(model.enums.Type.valueOf(type));
+        entity.setStatus(Status.valueOf(status));
 
         if (service.update(id, entity)) {
             return "added successfully";

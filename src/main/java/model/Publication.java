@@ -42,6 +42,26 @@ public abstract class Publication {
         return borrowHistory;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public void setBorrowHistory(BorrowHistory borrowHistory) {
         this.borrowHistory = borrowHistory;
     }

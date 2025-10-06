@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-class UserService implements IUserService {
+public class UserService implements IUserService {
     private ObjectMapper mapper = new ObjectMapper();
     private File dataFile;
     private User loggedInUser;

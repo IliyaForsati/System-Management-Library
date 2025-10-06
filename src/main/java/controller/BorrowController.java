@@ -10,18 +10,14 @@ import settings.serviceProvider.ServiceProvider;
 public class BorrowController implements IBorrowController {
     private final IBorrowService service = ServiceProvider.mainScope.getService(IBorrowService.class);
 
-    public String borrow(String jsonBody) {
-        JsonNode tree = mapper.valueToTree(jsonBody);
-
-        Publication publication = IPublicationService.findPublicationById(tree.get("publicationId").asInt());
+    public String borrow(int publicationId) {
+        Publication publication = IPublicationService.findPublicationById(publicationId);
 
         return service.Borrow(publication);
     }
 
-    public String return_(String jsonBody) {
-        JsonNode tree = mapper.valueToTree(jsonBody);
-
-        Publication publication = IPublicationService.findPublicationById(tree.get("publicationId").asInt());
+    public String return_(int publicationId) {
+        Publication publication = IPublicationService.findPublicationById(publicationId);
 
         return service.Borrow(publication);
     }

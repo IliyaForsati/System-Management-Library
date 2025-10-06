@@ -33,6 +33,10 @@ public class BorrowService implements IBorrowService {
         }
 
         User loggedInUser = ServiceProvider.mainScope.getService(IUserService.class).getLoggedInUser();
+        if (publication.getBorrowHistory().getUser() != loggedInUser) {
+            return "return can be just by the user that borrow the publication";
+        }
+
         loggedInUser.borrowHistories.remove(publication.getBorrowHistory());
         publication.setBorrowHistory(null);
         return "returned successfully";

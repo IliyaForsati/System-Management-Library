@@ -3,14 +3,11 @@ import controller.*;
 import controller.interfaces.*;
 import services.*;
 import services.interfaces.*;
-import settings.network.TCPNetwork;
 import settings.serviceProvider.ServiceProvider;
 import java.io.*;
+import java.util.Scanner;
 
 public class Program {
-    // TCPNetwork setup
-    static TCPNetwork network;
-
     // dependency injection
     public static final ServiceProvider serviceProvider = ServiceProvider.mainScope;
     static {
@@ -30,34 +27,19 @@ public class Program {
     }
 
     // mainLoop of program
-    private static void mainLoop() throws IOException {
+    private static void mainLoop() {
+        Scanner scanner = new Scanner(System.in);
+        MainController mainController = new MainController();
         while (true) {
-            String req = network.getRequest();
+            System.out.print("\n> ");
+            String newLine = scanner.nextLine();
 
-            try {
-                // todo
-//                String res = MainController.run(req);
-//                network.sendResponse(res);
-            } catch (Exception e) {
-                network.sendResponse("something went wrong! \n" + e);
-            }
+            System.out.println(mainController.run(newLine));
         }
     }
 
     // start of program
-    static int port = 8088;
     public static void main(String[] args) throws IOException {
-        checkArgs(args);
-
-        network = new TCPNetwork(port);
-
         mainLoop();
 	}
-    private static void checkArgs(String[] args) {
-        for (String arg : args) {
-            if (arg.matches("port=\\d")) {
-                port = Integer.parseInt(arg.split("=")[1]);
-            }
-        }
-    }
 }

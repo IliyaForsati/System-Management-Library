@@ -3,7 +3,7 @@ package controller.interfaces;
 import settings.interfaces.IController;
 
 public interface IBorrowController extends IController {
-    String borrow(String jsonBody);
-    String return_(String jsonBody);
+    String borrow(int publicationI);
+    String return_(int publicationI);
     String showHistory();
 }
