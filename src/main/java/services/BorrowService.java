@@ -3,33 +3,38 @@ package services;
 import model.BorrowHistory;
 import model.Publication;
 import model.User;
+import model.enums.Type;
 import services.interfaces.IBorrowService;
 import services.interfaces.IUserService;
 import settings.serviceProvider.ServiceProvider;
 
 public class BorrowService implements IBorrowService {
-    public String Borrow(Publication publication) {
+    public String borrow(Publication publication) {
         if (publication == null) {
-            return "there is no book with this id";
+            return "there is no publication with this id";
         }
         if (publication.getBorrowHistory() != null) {
-            return "book is already in used";
+            return "publication is already in used";
         }
 
         User loggedInUser = ServiceProvider.mainScope.getService(IUserService.class).getLoggedInUser();
 
         BorrowHistory borrowHistory = new BorrowHistory(loggedInUser, publication);
-        loggedInUser.borrowHistories.add(borrowHistory);
+        loggedInUser.getBorrowHistories().add(borrowHistory);
         publication.setBorrowHistory(borrowHistory);
+
+        ServiceProvider.mainScope.getService(IUserService.class).saveChanges();
+        ServiceProvider.mainScope.getService(Type.getServiceByModelClass(publication.getType().getModel())).update(publication.getId(), publication);
+
         return "borrowed successfully";
     }
 
     public String return_(Publication publication) {
         if (publication == null) {
-            return "there is no book with this id";
+            return "there is no publication with this id";
         }
         if (publication.getBorrowHistory() == null) {
-            return "book is not already in used";
+            return "publication is not already in used";
         }
 
         User loggedInUser = ServiceProvider.mainScope.getService(IUserService.class).getLoggedInUser();
@@ -37,7 +42,7 @@ public class BorrowService implements IBorrowService {
             return "return can be just by the user that borrow the publication";
         }
 
-        loggedInUser.borrowHistories.remove(publication.getBorrowHistory());
+        loggedInUser.getBorrowHistories().remove(publication.getBorrowHistory());
         publication.setBorrowHistory(null);
         return "returned successfully";
     }
@@ -47,7 +52,7 @@ public class BorrowService implements IBorrowService {
 
         User loggedInUser = ServiceProvider.mainScope.getService(IUserService.class).getLoggedInUser();
 
-        for (BorrowHistory h : loggedInUser.borrowHistories)
+        for (BorrowHistory h : loggedInUser.getBorrowHistories())
             sb.append(h.toString()).append('\n');
 
         return sb.toString();

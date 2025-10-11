@@ -20,9 +20,11 @@ public enum Type {
         this.service = service;
     }
 
-    public Class<?> getService() {
-        return service;
+    @SuppressWarnings("unchecked")
+    public <T extends Publication> Class<T> getModel() {
+        return (Class<T>) model;
     }
+
     @SuppressWarnings("unchecked")
     public static <T extends Publication, P extends IPublicationService<T>> Class<P> getServiceByModelClass(Class<T> clazz) {
         for (Type t : Type.values()) {

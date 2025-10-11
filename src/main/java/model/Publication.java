@@ -1,8 +1,6 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import model.enums.Status;
 import model.enums.Type;
 import java.util.Random;
@@ -14,6 +12,9 @@ import java.util.Random;
         @JsonSubTypes.Type(value = Article.class, name = "Article"),
         @JsonSubTypes.Type(value = Dissertation.class, name = "Dissertation"),
         @JsonSubTypes.Type(value = Magazine.class, name = "Magazine") }
+)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class, property = "id"
 )
 public abstract class Publication {
     protected int id = new Random().nextInt(1000, 9999);

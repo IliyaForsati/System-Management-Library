@@ -1,7 +1,5 @@
 package controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import controller.interfaces.IPublicationController;
 import model.Publication;
 import model.enums.SortType;
@@ -15,7 +13,7 @@ import java.lang.reflect.Type;
 
 public class PublicationController<T extends Publication> implements IPublicationController<T> {
     private final Class<T> clazz = getClazz();
-    private final IPublicationService<T> service =ServiceProvider.mainScope
+    private final IPublicationService<T> service = ServiceProvider.mainScope
             .getService(model.enums.Type.getServiceByModelClass(clazz));
 
     @SuppressWarnings("unchecked")

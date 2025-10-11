@@ -1,13 +1,18 @@
 package model;
 
-import java.time.LocalDate;
-import java.util.Random;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.time.LocalDate;
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class BorrowHistory {
     private User user;
     private Publication publication;
     private LocalDate start;
     private LocalDate end;
+
+    public BorrowHistory() {}
 
     public BorrowHistory(User user, Publication publication) {
         this.user = user;

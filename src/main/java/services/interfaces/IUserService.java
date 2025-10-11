@@ -9,4 +9,5 @@ public interface IUserService extends IService {
     String login(UserDTO user);
     String logout();
     User getLoggedInUser();
+    void saveChanges();
 }

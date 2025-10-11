@@ -30,7 +30,7 @@ public class UserService implements IUserService {
             } else {
                 users = mapper.readValue(
                         dataFile,
-                        new TypeReference<>() {}
+                        new TypeReference<ArrayList<User>>() {}
                 );
             }
         } catch (IOException e) {
@@ -91,6 +91,10 @@ public class UserService implements IUserService {
 
     public User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public void saveChanges() {
+        saveData();
     }
 
     private User getUserByUsername(String username) {
