@@ -1,5 +1,6 @@
 package services;
 
+import com.fasterxml.jackson.databind.JavaType;
 import model.Publication;
 import model.enums.SortType;
 import services.interfaces.IPublicationService;
@@ -37,6 +38,7 @@ abstract class PublicationService<T extends Publication> implements IPublication
         try {
             if (!dataFile.exists()) {
                 dataFile.getParentFile().mkdirs();
+
                 dataFile.createNewFile();
                 allData = new ArrayList<>();
             }
@@ -57,7 +59,8 @@ abstract class PublicationService<T extends Publication> implements IPublication
     }
     protected void updateJsonFile() {
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(dataFile, allData);
+            JavaType type = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Publication.class);
+            mapper.writerFor(type).writeValue(dataFile, allData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

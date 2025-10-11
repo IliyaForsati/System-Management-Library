@@ -38,7 +38,7 @@ public class BorrowHistory {
 
     @Override
     public String toString() {
-        return  "user=" + user +
+        return  "user=" + user.getUsername() +
                 ", publication=" + publication +
                 ", start=" + start +
                 ", end=" + end;

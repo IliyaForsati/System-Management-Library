@@ -1,0 +1,5 @@
+[ {
+  "username" : "iliya",
+  "password" : "$argon2id$v=19$m=65536,t=3,p=1$f+hvHDrxwjQMVNzBpzJE7g$er9FWjzK3bIoApjljhjbNzxBXF8Ui3ctUcMuHZzd6xs",
+  "borrowHistories" : [ ]
+} ]

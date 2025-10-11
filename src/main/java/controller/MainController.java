@@ -1,6 +1,7 @@
 package controller;
 
 import controller.interfaces.*;
+import model.enums.Type;
 import settings.serviceProvider.ServiceProvider;
 
 public class MainController {
@@ -55,19 +56,19 @@ public class MainController {
     }
     
     private String processBookCommand(String params) {
-        return processPublicationCommand(bookController, params, "book");
+        return processPublicationCommand(bookController, params, "BOOK");
     }
     
     private String processArticleCommand(String params) {
-        return processPublicationCommand(articleController, params, "article");
+        return processPublicationCommand(articleController, params, "ARTICLE");
     }
     
     private String processMagazineCommand(String params) {
-        return processPublicationCommand(magazineController, params, "magazine");
+        return processPublicationCommand(magazineController, params, "MAGAZINE");
     }
     
     private String processDissertationCommand(String params) {
-        return processPublicationCommand(dissertationController, params, "dissertation");
+        return processPublicationCommand(dissertationController, params, "DISSERTATION");
     }
     
     private String processPublicationCommand(IPublicationController<?> controller, String params, String type) {
@@ -78,16 +79,16 @@ public class MainController {
         try {
             return switch (action) {
                 case "add" -> {
-                    String[] addParts = data.split("\\s+", 5);
-                    if (addParts.length < 5) {
+                    String[] addParts = data.split("\\s+", 4);
+                    if (addParts.length < 4) {
                         yield "Usage: " + type + " add <title> <author> <year> <type> <status>";
                     }
                     yield controller.add(
                         addParts[0], 
                         addParts[1], 
-                        Integer.parseInt(addParts[2]), 
-                        addParts[3], 
-                        addParts[4]
+                        Integer.parseInt(addParts[2]),
+                        type,
+                        addParts[3]
                     );
                 }
                 case "get" -> {
@@ -165,6 +166,9 @@ public class MainController {
         String data = parts.length > 1 ? parts[1] : "";
         
         try {
+            if (action.equals("history"))
+                return borrowController.showHistory();
+
             if (data.isEmpty()) {
                 return "Usage: borrow <borrow|return> <publicationId>";
             }
@@ -172,7 +176,6 @@ public class MainController {
             return switch (action) {
                 case "borrow" -> borrowController.borrow(publicationId);
                 case "return" -> borrowController.return_(publicationId);
-                case "history" -> borrowController.showHistory();
                 default -> "Unknown borrow command. Available: borrow, return, history";
             };
         } catch (NumberFormatException e) {

@@ -18,7 +18,7 @@ public class BorrowController implements IBorrowController {
     public String return_(int publicationId) {
         Publication publication = IPublicationService.findPublicationById(publicationId);
 
-        return service.Borrow(publication);
+        return service.return_(publication);
     }
 
     public String showHistory() {
