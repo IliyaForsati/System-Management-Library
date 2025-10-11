@@ -33,6 +33,10 @@ public class BorrowHistory {
         return start;
     }
 
+    public void setStart(LocalDate start) {
+        this.start = start;
+    }
+
     public LocalDate getEnd() {
         return end;
     }
