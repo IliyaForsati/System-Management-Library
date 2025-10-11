@@ -1,6 +1,6 @@
 package services;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import model.User;
 import model.UserDTO;
 import services.interfaces.IUserService;
@@ -28,13 +28,12 @@ public class UserService implements IUserService {
             } else if (dataFile.length() == 0) {
                 users = new ArrayList<>();
             } else {
-                users = mapper.readValue(
-                        dataFile,
-                        new TypeReference<ArrayList<User>>() {}
-                );
+                JavaType userListType = mapper.getTypeFactory()
+                        .constructCollectionType(ArrayList.class, User.class);
+                users = mapper.readValue(dataFile, userListType);
             }
         } catch (IOException e) {
-            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file.");
+            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file.\n" + e.getMessage());
             users = new ArrayList<>();
             saveData();
         }
@@ -97,7 +96,7 @@ public class UserService implements IUserService {
         saveData();
     }
 
-    private User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
                 return user;

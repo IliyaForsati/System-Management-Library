@@ -10,4 +10,5 @@ public interface IUserService extends IService {
     String logout();
     User getLoggedInUser();
     void saveChanges();
+    public User getUserByUsername(String username);
 }

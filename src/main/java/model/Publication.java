@@ -13,9 +13,6 @@ import java.util.Random;
         @JsonSubTypes.Type(value = Dissertation.class, name = "Dissertation"),
         @JsonSubTypes.Type(value = Magazine.class, name = "Magazine") }
 )
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class, property = "id"
-)
 public abstract class Publication {
     protected int id = new Random().nextInt(1000, 9999);
     protected String title;
@@ -24,6 +21,8 @@ public abstract class Publication {
     protected Type type;
     protected Status status;
     protected BorrowHistory borrowHistory;
+
+    public Publication() {}
 
     // <editor-fold desc="getters">
     public int getId() {
@@ -76,6 +75,10 @@ public abstract class Publication {
 
     public void setBorrowHistory(BorrowHistory borrowHistory) {
         this.borrowHistory = borrowHistory;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     // </editor-fold>
 

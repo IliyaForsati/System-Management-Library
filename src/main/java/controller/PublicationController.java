@@ -74,7 +74,7 @@ public class PublicationController<T extends Publication> implements IPublicatio
         entity.setStatus(Status.valueOf(status));
 
         if (service.update(id, entity)) {
-            return "added successfully";
+            return "updated successfully";
         }
         return null;
     }

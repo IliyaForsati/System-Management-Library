@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 abstract class PublicationService<T extends Publication> implements IPublicationService<T> {
@@ -46,13 +45,12 @@ abstract class PublicationService<T extends Publication> implements IPublication
                 allData = new ArrayList<>();
             }
             else {
-                @SuppressWarnings("unchecked")
-                Class<T[]> arrayClazz = (Class<T[]>) java.lang.reflect.Array.newInstance(clazz, 0).getClass();
-                T[] array = mapper.readValue(dataFile, arrayClazz);
-                allData = new ArrayList<>(Arrays.asList(array));
+                JavaType type = mapper.getTypeFactory()
+                        .constructCollectionType(ArrayList.class, clazz);
+                allData = mapper.readValue(dataFile, type);
             }
         } catch (IOException e) {
-            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file.");
+            System.err.println("Warning: " + dataFile.getName() + " is invalid JSON, resetting file. \n" + e.getMessage());
             allData = new ArrayList<>();
             updateJsonFile();
         }
@@ -60,7 +58,7 @@ abstract class PublicationService<T extends Publication> implements IPublication
     protected void updateJsonFile() {
         try {
             JavaType type = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Publication.class);
-            mapper.writerFor(type).writeValue(dataFile, allData);
+            mapper.writerFor(type).withDefaultPrettyPrinter().writeValue(dataFile, allData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -129,15 +127,18 @@ abstract class PublicationService<T extends Publication> implements IPublication
             throw new IllegalArgumentException("Source and target must be of the same class");
         }
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            try {
-                Object value = field.get(source);
-                field.set(target, value);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("Failed to copy field: " + field.getName(), e);
+        while (clazz != null) {
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(source);
+                    field.set(target, value);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Failed to copy field: " + field.getName(), e);
+                }
             }
+            clazz = clazz.getSuperclass();
         }
     }
 }
